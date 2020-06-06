@@ -1,0 +1,5 @@
+{
+  "/api/config": {
+    "target": "http://localhost:8888"
+  }
+}
