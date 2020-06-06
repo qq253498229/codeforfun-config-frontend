@@ -9,7 +9,7 @@ import {zh_CN} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {SharedModule} from "./pages/shared/shared.module";
-import {NzLayoutModule, NzMenuModule} from "ng-zorro-antd";
+import {NzMenuModule} from "ng-zorro-antd";
 
 registerLocaleData(zh);
 
@@ -22,7 +22,6 @@ registerLocaleData(zh);
         AppRoutingModule,
         BrowserAnimationsModule,
         SharedModule,
-        NzLayoutModule,
         NzMenuModule,
     ],
     providers: [{provide: NZ_I18N, useValue: zh_CN}],
