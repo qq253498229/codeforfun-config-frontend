@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {HttpClientModule} from "@angular/common/http";
 import {IconsProviderModule} from "../../icons-provider.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NzDividerModule, NzLayoutModule, NzTableModule} from "ng-zorro-antd";
+import {NzDividerModule, NzGridModule, NzLayoutModule, NzTableModule} from "ng-zorro-antd";
 
 const THIRD_MODULES = [
     FormsModule,
@@ -13,6 +13,7 @@ const THIRD_MODULES = [
     NzLayoutModule,
     NzTableModule,
     NzDividerModule,
+    NzGridModule,
 ];
 
 const COMPONENTS = [];
