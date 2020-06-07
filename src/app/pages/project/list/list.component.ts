@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ProjectService} from "../project.service";
 
 @Component({
     selector: 'app-list',
@@ -6,31 +7,20 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-    listOfData = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park'
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park'
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park'
-        }
-    ];
+    listOfData = [];
 
-    constructor() {
+    constructor(
+        private service: ProjectService
+    ) {
     }
 
     ngOnInit(): void {
+        this.load()
     }
 
+    private load() {
+        this.service.list.subscribe(res => {
+            this.listOfData = res
+        })
+    }
 }

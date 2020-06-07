@@ -3,14 +3,17 @@ import {ListComponent} from './list/list.component';
 import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../shared/shared.module";
 import {CommonModule} from "@angular/common";
+import {DetailComponent} from './detail/detail.component';
 
 const routes: Routes = [
-    {path: '', component: ListComponent}
+    {path: '', component: ListComponent},
+    {path: 'new', component: DetailComponent},
 ]
 
 @NgModule({
     declarations: [
-        ListComponent
+        ListComponent,
+        DetailComponent
     ],
     imports: [
         CommonModule,

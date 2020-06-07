@@ -22,9 +22,6 @@
             <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/project">项目管理</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
                         <a routerLink="/env">环境管理</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
@@ -37,12 +34,26 @@
     <nz-layout>
         <nz-header>
             <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <i class="trigger"
-               nz-icon
-               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            ></i>
-        </span>
+                <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                    <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+                </span>
+
+                <a nz-dropdown routerLink="/project" *ngIf="projectList.length == 0">
+                    项目管理
+                </a>
+                <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="projectList.length > 0">
+                    切换项目
+                    <i nz-icon nzType="down"></i>
+                </a>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                        <li nz-menu-item *ngFor="let item of projectList">
+                            {{ item.name }}
+                        </li>
+                        <li nz-menu-divider></li>
+                        <li nz-menu-item routerLink="/project">项目管理</li>
+                    </ul>
+                </nz-dropdown-menu>
             </div>
         </nz-header>
         <nz-content>
