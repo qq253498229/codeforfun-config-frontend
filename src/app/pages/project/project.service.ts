@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
+import {FormControl} from "@angular/forms";
 
 @Injectable({
     providedIn: 'root'
@@ -34,5 +35,9 @@ export class ProjectService {
 
     get project() {
         return this.currentProject
+    }
+
+    checkName(name: string) {
+        return this.http.get('/api/config/project/checkName/' + name)
     }
 }

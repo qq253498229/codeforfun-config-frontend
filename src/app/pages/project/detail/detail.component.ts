@@ -1,53 +1,114 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup, ValidationErrors,
+    Validators
+} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
+import {ProjectService} from "../project.service";
+import {Observable, Observer, timer} from "rxjs";
+import * as _ from 'lodash'
 
 @Component({
-  selector: 'app-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+    selector: 'app-detail',
+    templateUrl: './detail.component.html',
+    styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
 
-  validateForm!: FormGroup;
+    form: FormGroup;
 
-  submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
+
+    userNameAsyncValidator(control: FormControl) {
+        //todo
+        return new Observable((observer: Observer<ValidationErrors | null>) => {
+            const func = _.debounce(() => {
+                console.log(control.value)
+                if (control.value === '123') {
+                    observer.next({error: true, duplicated: true})
+                } else {
+                    observer.next(null)
+                }
+                observer.complete()
+            }, 2000, {maxWait: 5000})
+            func()
+        })
+        // const numbers = timer(1000);
+        // numbers.subscribe(x => {
+        //     console.log(x)
+        //     console.log(control.value)
+        // });
+        // return numbers
+
+        // return timer(500).switchMap(()=>{
+        //     return Observable.of({availability: true})
+        // });
+
+        // return this.http.get(`/api/config/project/checkName/${control.value}`).pipe(
+        //     debounceTime(1000),
+        //     distinctUntilChanged()
+        // )
+
+        // return new Observable((observer: Observer<ValidationErrors | null>) => {
+        //     const func = _.debounce(() => {
+        //         console.log(control.value)
+        //         if (control.value === '123') {
+        //             observer.next({error: true, duplicated: true})
+        //         } else {
+        //             observer.next(null)
+        //         }
+        //         observer.complete()
+        //     }, 300)
+        //
+        //     func()
+        // })
     }
-  }
 
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
-  }
+    // return new Observable((observer: Observer<ValidationErrors | null>) => {
+    //     console.log(control.value)
+    //     console.log(that.http)
+    //     if (control.value === '123') {
+    //         observer.next({error: true, duplicated: true})
+    //     } else {
+    //         observer.next(null)
+    //     }
+    //     observer.complete()
+    // })
 
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
+    // userNameAsyncValidator = (control: FormControl) =>
+    //     new Observable((observer: Observer<ValidationErrors | null>) => {
+    //         setTimeout(() => {
+    //             this.service.checkName(control.value).subscribe(res => {
+    //                 console.log('res', res)
+    //                 if (res) {
+    //                     observer.next(null);
+    //                 } else {
+    //                     observer.next({error: true, duplicated: true});
+    //                 }
+    //                 observer.complete();
+    //             })
+    //         }, 1000)
+    //     });
+
+    submitForm(): void {
+        for (const i in this.form.controls) {
+            this.form.controls[i].markAsDirty();
+            this.form.controls[i].updateValueAndValidity();
+        }
+        console.log(this.form.value)
     }
-    return {};
-  };
 
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
-  }
+    constructor(
+        private fb: FormBuilder,
+        private http: HttpClient,
+        private service: ProjectService,
+    ) {
+    }
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      nickname: [null, [Validators.required]],
-      phoneNumberPrefix: ['+86'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false]
-    });
-  }
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            name: [null, [Validators.required], [this.userNameAsyncValidator.bind(this)]],
+        });
+    }
 }
