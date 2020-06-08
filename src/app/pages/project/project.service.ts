@@ -12,6 +12,8 @@ export class ProjectService {
     ) {
     }
 
+    projectList: any[]
+
     private current = new Subject<any>()
 
     current$ = this.current.asObservable()
@@ -22,10 +24,9 @@ export class ProjectService {
     }
 
     getCurrent() {
-        return JSON.parse(localStorage.getItem('CURRENT_PROJECT') || '{}')
+        const json = localStorage.getItem('CURRENT_PROJECT')
+        return json ? JSON.parse(localStorage.getItem('CURRENT_PROJECT')) : null
     }
-
-    projectList: any[]
 
     get list(): Observable<any[]> {
         const subject = new Subject<any[]>();
@@ -34,6 +35,9 @@ export class ProjectService {
         } else {
             this.http.get('/api/config/project?size=5').subscribe(res => {
                 subject.next(res[`content`])
+                if (res[`content`].length > 0 && !this.getCurrent()) {
+                    this.setCurrent(res[`content`][0])
+                }
             })
         }
         return subject;

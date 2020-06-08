@@ -25,7 +25,7 @@ export class ProjectGuard implements CanActivate, CanActivateChild {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        if (this.service.project) {
+        if (this.service.getCurrent()) {
             return true;
         }
         this.router.navigate(['/project'])
