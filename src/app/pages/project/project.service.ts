@@ -27,8 +27,6 @@ export class ProjectService {
 
     projectList: any[]
 
-    currentProject: string
-
     get list(): Observable<any[]> {
         const subject = new Subject<any[]>();
         if (this.projectList) {
