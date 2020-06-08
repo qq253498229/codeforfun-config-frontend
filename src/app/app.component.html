@@ -38,11 +38,11 @@
                     <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
                 </span>
 
-                <a nz-dropdown routerLink="/project" *ngIf="projectList.length == 0 || !currentProject">
+                <a nz-dropdown routerLink="/project" *ngIf="!current">
                     项目管理
                 </a>
-                <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="projectList.length > 0 && currentProject">
-                    {{ currentProject.name }}
+                <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="current">
+                    {{ current }}
                     <i nz-icon nzType="down"></i>
                 </a>
                 <nz-dropdown-menu #menu="nzDropdownMenu">

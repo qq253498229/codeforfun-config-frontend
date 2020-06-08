@@ -32,6 +32,6 @@ export class ListComponent implements OnInit {
 
     setCurrent(id) {
         this.current = _.find(this.listOfData, o => o.id == id)
-        this.service.setCurrent(this.current)
+        this.service.setCurrent({id: this.current[`id`], name: this.current[`name`]})
     }
 }

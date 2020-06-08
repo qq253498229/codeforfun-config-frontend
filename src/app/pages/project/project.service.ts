@@ -43,4 +43,7 @@ export class ProjectService {
         return subject;
     }
 
+    checkName(name: string) {
+        return this.http.get('/api/config/project/checkName/' + name)
+    }
 }
