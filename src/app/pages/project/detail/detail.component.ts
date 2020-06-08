@@ -22,7 +22,7 @@ export class DetailComponent implements OnInit {
 
 
     userNameAsyncValidator(control: FormControl) {
-        // fixme 重复发送http请求
+        // fixme 每输入一个字符都会发送一个http请求进行后台校验，会影响性能，应该改成几秒内发送一次
         return this.service.checkName(control.value).pipe(
             map(res => {
                 if (res) {
