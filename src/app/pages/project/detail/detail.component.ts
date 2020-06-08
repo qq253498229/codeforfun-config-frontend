@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {
     FormBuilder,
     FormControl,
-    FormGroup, ValidationErrors,
+    FormGroup,
     Validators
 } from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../project.service";
-import {Observable, Observer, timer} from "rxjs";
-import * as _ from 'lodash'
 import {map} from "rxjs/operators";
+import {Router} from "@angular/router";
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
     selector: 'app-detail',
@@ -40,13 +40,18 @@ export class DetailComponent implements OnInit {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
-        console.log(this.form.value)
+        this.http.post(`/api/config/project`, this.form.value).subscribe(res => {
+            this.message.create('success', '创建成功')
+            this.router.navigate(['/project'])
+        })
     }
 
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
         private service: ProjectService,
+        private router: Router,
+        private message: NzMessageService,
     ) {
     }
 
