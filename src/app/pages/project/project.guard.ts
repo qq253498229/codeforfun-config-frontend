@@ -9,6 +9,7 @@ import {
 } from '@angular/router';
 import {Observable} from 'rxjs';
 import {ProjectService} from "./project.service";
+import {NzMessageService} from "ng-zorro-antd";
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +19,7 @@ export class ProjectGuard implements CanActivate, CanActivateChild {
     constructor(
         private service: ProjectService,
         private router: Router,
+        private message: NzMessageService,
     ) {
     }
 
@@ -28,6 +30,7 @@ export class ProjectGuard implements CanActivate, CanActivateChild {
         if (this.service.getCurrent()) {
             return true;
         }
+        this.message.create('info', '请先设置当前项目')
         this.router.navigate(['/project'])
         return false;
     }
