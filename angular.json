@@ -106,5 +106,8 @@
       }
     }
   },
-  "defaultProject": "demo-config-frontend"
+  "defaultProject": "demo-config-frontend",
+  "cli": {
+    "analytics": false
+  }
 }
