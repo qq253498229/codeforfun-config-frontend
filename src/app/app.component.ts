@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "./pages/project/project.service";
 
 @Component({
@@ -11,6 +10,8 @@ export class AppComponent implements OnInit {
     isCollapsed = false;
 
     projectList = []
+
+    currentProject = {}
 
     constructor(
         private projectService: ProjectService,
@@ -24,6 +25,10 @@ export class AppComponent implements OnInit {
     load() {
         this.projectService.list.subscribe(res => {
             this.projectList = res;
+        })
+        this.currentProject = this.projectService.getCurrent()
+        this.projectService.current$.subscribe(res => {
+            this.currentProject = res
         })
     }
 }

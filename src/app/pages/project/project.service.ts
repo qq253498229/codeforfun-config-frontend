@@ -1,21 +1,33 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
-import {FormControl} from "@angular/forms";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProjectService {
 
-    projectList: any[]
-
-    currentProject: string
-
     constructor(
         private http: HttpClient
     ) {
     }
+
+    private current = new Subject<any>()
+
+    current$ = this.current.asObservable()
+
+    setCurrent(obj: any) {
+        localStorage.setItem('CURRENT_PROJECT', JSON.stringify(obj))
+        this.current.next(obj)
+    }
+
+    getCurrent() {
+        return JSON.parse(localStorage.getItem('CURRENT_PROJECT') || '{}')
+    }
+
+    projectList: any[]
+
+    currentProject: string
 
     get list(): Observable<any[]> {
         const subject = new Subject<any[]>();
@@ -29,15 +41,4 @@ export class ProjectService {
         return subject;
     }
 
-    set project(name: string) {
-        this.currentProject = name
-    }
-
-    get project() {
-        return this.currentProject
-    }
-
-    checkName(name: string) {
-        return this.http.get('/api/config/project/checkName/' + name)
-    }
 }
