@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {
     FormBuilder,
-    FormGroup, Validators,
+    FormGroup,
 } from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../project.service";
@@ -34,6 +34,9 @@ export class DetailComponent implements OnInit {
             code: [null]
         });
     }
+
+    // 校验项目名
+    // https://angular.cn/guide/http#debouncing-requests
 
     submitForm(): void {
         for (const i in this.form.controls) {
