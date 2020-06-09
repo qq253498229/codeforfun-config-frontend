@@ -16,6 +16,9 @@
                         <ng-container *ngIf="control.hasError('required')">
                             请输入环境名！
                         </ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">
+                            环境名只能是 数字 、 字母和 "-"
+                        </ng-container>
                         <ng-container *ngIf="control.hasError('duplicated')">
                             环境名重复！
                         </ng-container>
@@ -24,9 +27,9 @@
             </nz-form-item>
 
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzRequired>描述</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入描述!">
-                    <input nz-input id="description" formControlName="description" placeholder="请输入描述"/>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark" nzRequired>备注</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入备注!">
+                    <input nz-input id="remark" formControlName="remark" placeholder="请输入备注"/>
                 </nz-form-control>
             </nz-form-item>
 

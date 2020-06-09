@@ -52,8 +52,8 @@ export class DetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            name: [null, [Validators.required], [this.nameAsyncValidator.bind(this)]],
-            description: [null, [Validators.required]]
+            name: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9\-]+$')], [this.nameAsyncValidator.bind(this)]],
+            remark: [null, [Validators.required]]
         });
     }
 }
