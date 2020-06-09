@@ -11,7 +11,7 @@ import * as _ from 'lodash'
 export class ListComponent implements OnInit {
     listOfData = [];
 
-    current = {}
+    current: { id: number, name: string }
 
     constructor(
         private service: ProjectService,
@@ -32,6 +32,6 @@ export class ListComponent implements OnInit {
 
     setCurrent(id) {
         this.current = _.find(this.listOfData, o => o.id == id)
-        this.service.setCurrent({id: this.current[`id`], name: this.current[`name`]})
+        this.service.setCurrent({id: this.current[`id`], name: this.current[`name`], remark: this.current[`remark`]})
     }
 }

@@ -1,38 +1,35 @@
 <div nz-row>
     <div nz-col nzSpan="24">
-        <h1>新建项目</h1>
+        <h1>新建环境</h1>
     </div>
 </div>
 <div nz-row>
     <div nz-col nzSpan="24">
 
         <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>项目名</nz-form-label>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>环境名</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback nzValidatingTip="校验中..."
                                  [nzErrorTip]="nameErrorTpl">
-                    <input nz-input id="name" formControlName="name" placeholder="请输入项目名"/>
+                    <input nz-input id="name" formControlName="name" placeholder="请输入环境名"/>
                     <ng-template #nameErrorTpl let-control>
                         <ng-container *ngIf="control.hasError('required')">
-                            请输入项目名！
-                        </ng-container>
-                        <ng-container *ngIf="control.hasError('pattern')">
-                            项目名只能是 数字 、 字母和 "-"
+                            请输入环境名！
                         </ng-container>
                         <ng-container *ngIf="control.hasError('duplicated')">
-                            项目名重复！
+                            环境名重复！
                         </ng-container>
                     </ng-template>
                 </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark" nzRequired>备注</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入备注!">
-                    <input nz-input id="remark" formControlName="remark" placeholder="请输入备注"/>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzRequired>描述</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入描述!">
+                    <input nz-input id="description" formControlName="description" placeholder="请输入描述"/>
                 </nz-form-control>
             </nz-form-item>
+
 
             <nz-form-item nz-row class="register-area">
                 <nz-form-control [nzSpan]="14" [nzOffset]="6">

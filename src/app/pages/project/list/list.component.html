@@ -12,16 +12,16 @@
             <thead>
             <tr>
                 <th>项目名</th>
-                <th>创建时间</th>
+                <th>备注</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let data of basicTable.data">
                 <td>{{ data.name }}</td>
-                <td>{{ data.createTime | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                <td>{{ data.remark }}</td>
                 <td>
-                    <a *ngIf="!current || current?.name != data.name" (click)="setCurrent(data.id)">设为当前项目</a>
+                    <a *ngIf="!current || current.name != data.name" (click)="setCurrent(data.id)">设为当前项目</a>
                 </td>
             </tr>
             </tbody>
