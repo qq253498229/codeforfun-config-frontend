@@ -1,15 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {
     FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators
+    FormGroup, Validators,
 } from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../project.service";
-import {map} from "rxjs/operators";
 import {Router} from "@angular/router";
-import {NzMessageService} from "ng-zorro-antd";
+import {NzMessageService, NzNotificationService} from "ng-zorro-antd";
+import * as _ from 'lodash'
 
 @Component({
     selector: 'app-detail',
@@ -20,20 +18,22 @@ export class DetailComponent implements OnInit {
 
     form: FormGroup;
 
-
-    userNameAsyncValidator(control: FormControl) {
-        // fixme 每输入一个字符都会发送一个http请求进行后台校验，会影响性能，应该改成几秒内发送一次
-        return this.service.checkName(control.value).pipe(
-            map(res => {
-                if (res) {
-                    return {}
-                } else {
-                    return {error: true, duplicated: true}
-                }
-            })
-        )
+    constructor(
+        private fb: FormBuilder,
+        private http: HttpClient,
+        private service: ProjectService,
+        private router: Router,
+        private message: NzMessageService,
+        private notification: NzNotificationService,
+    ) {
     }
 
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            name: [null],
+            code: [null]
+        });
+    }
 
     submitForm(): void {
         for (const i in this.form.controls) {
@@ -43,22 +43,19 @@ export class DetailComponent implements OnInit {
         this.http.post(`/api/config/project`, this.form.value).subscribe(res => {
             this.message.create('success', '创建成功')
             this.router.navigate(['/project'])
+        }, err => {
+            console.log(err)
+            if (err.status === 400) {
+                _.map(err.error.errors, e => {
+                    const code: string = e[`code`]
+                    console.log(code)
+                    console.log(e.field, e.defaultMessage)
+                    // this.form.get(e.field)!.setErrors({'': true})
+                    // this.form.get(e.field)!.markAsDirty()
+                    // this.form.get(e.field)!.updateValueAndValidity()
+                    this.notification.create('error', '参数校验错误', e.defaultMessage)
+                })
+            }
         })
-    }
-
-    constructor(
-        private fb: FormBuilder,
-        private http: HttpClient,
-        private service: ProjectService,
-        private router: Router,
-        private message: NzMessageService,
-    ) {
-    }
-
-    ngOnInit(): void {
-        this.form = this.fb.group({
-            name: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9\-]+$')], [this.userNameAsyncValidator.bind(this)]],
-            remark: [null, [Validators.required]]
-        });
     }
 }

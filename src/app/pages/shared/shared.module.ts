@@ -5,13 +5,8 @@ import {IconsProviderModule} from "../../icons-provider.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
     NgZorroAntdModule,
-    NzButtonModule, NzCheckboxModule,
-    NzDividerModule,
-    NzDropDownModule, NzFormModule,
-    NzGridModule, NzInputModule,
-    NzLayoutModule, NzListItemMetaTitleComponent, NzListModule, NzSelectModule,
-    NzTableModule, NzToolTipModule
 } from "ng-zorro-antd";
+import {InputTrimModule} from "ng2-trim-directive";
 
 const THIRD_MODULES = [
     FormsModule,
@@ -19,6 +14,7 @@ const THIRD_MODULES = [
     IconsProviderModule,
     HttpClientModule,
     NgZorroAntdModule,
+    InputTrimModule,
 ];
 
 const COMPONENTS = [];
