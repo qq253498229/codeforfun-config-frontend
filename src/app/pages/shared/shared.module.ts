@@ -1,12 +1,13 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {IconsProviderModule} from "../../icons-provider.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
     NgZorroAntdModule,
 } from "ng-zorro-antd";
 import {InputTrimModule} from "ng2-trim-directive";
+import {BadRequestInterceptor} from "./bad-request.interceptor";
 
 const THIRD_MODULES = [
     FormsModule,
@@ -20,6 +21,9 @@ const THIRD_MODULES = [
 const COMPONENTS = [];
 const DIRECTIVES = [];
 const PIPES = [];
+const HTTP_INTERCEPTOR_LIST = [
+    {provide: HTTP_INTERCEPTORS, useClass: BadRequestInterceptor, multi: true}
+];
 
 
 @NgModule({
@@ -37,6 +41,9 @@ const PIPES = [];
         ...PIPES,
         ...COMPONENTS,
         ...DIRECTIVES,
+    ],
+    providers: [
+        ...HTTP_INTERCEPTOR_LIST,
     ]
 })
 export class SharedModule {

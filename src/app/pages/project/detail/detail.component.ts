@@ -24,7 +24,6 @@ export class DetailComponent implements OnInit {
         private service: ProjectService,
         private router: Router,
         private message: NzMessageService,
-        private notification: NzNotificationService,
     ) {
     }
 
@@ -46,19 +45,6 @@ export class DetailComponent implements OnInit {
         this.http.post(`/api/config/project`, this.form.value).subscribe(res => {
             this.message.create('success', '创建成功')
             this.router.navigate(['/project'])
-        }, err => {
-            console.log(err)
-            if (err.status === 400) {
-                _.map(err.error.errors, e => {
-                    const code: string = e[`code`]
-                    console.log(code)
-                    console.log(e.field, e.defaultMessage)
-                    // this.form.get(e.field)!.setErrors({'': true})
-                    // this.form.get(e.field)!.markAsDirty()
-                    // this.form.get(e.field)!.updateValueAndValidity()
-                    this.notification.create('error', '参数校验错误', e.defaultMessage)
-                })
-            }
         })
     }
 }
