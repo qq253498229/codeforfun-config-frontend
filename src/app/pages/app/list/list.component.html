@@ -1,0 +1,27 @@
+<div nz-row>
+    <div nz-col nzSpan="22">
+        <h1>应用列表</h1>
+    </div>
+    <div nz-col nzSpan="2">
+        <button nz-button nzType="primary" routerLink="/app/new">新建应用</button>
+    </div>
+</div>
+<div nz-row [nzGutter]="8">
+    <h1 *ngIf="result.content.length == 0">还没有应用，点击右上角新建</h1>
+    <ng-container *ngIf="result.content.length > 0">
+        <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.content">
+            <nz-card [nzBordered]="false" [nzTitle]="item.name" nzHoverable="true" [routerLink]="'/app/edit/'+item.id">
+                <p *ngIf="item.envList.length == 0">该项目目前没有配置</p>
+                <form *ngIf="item.envList.length > 0">
+                    <nz-form-item class="mb0">
+                        <nz-form-label [nzSm]="6" [nzXs]="24">开发环境</nz-form-label>
+                        <nz-form-control [nzSm]="14" [nzXs]="24">
+                            <span>数据库、RabbitMQ</span>
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-card>
+        </div>
+    </ng-container>
+
+</div>

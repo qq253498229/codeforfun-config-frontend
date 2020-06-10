@@ -1,0 +1,35 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <h1 *ngIf="!app">新建应用</h1>
+        <h1 *ngIf="app">编辑应用</h1>
+    </div>
+</div>
+<div nz-row>
+    <div nz-col nzSpan="24">
+
+        <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">应用名</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24">
+                    <input nz-input id="name" formControlName="name" placeholder="请输入应用名" autofocus/>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="code">应用编号</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用编号!">
+                    <input nz-input id="code" formControlName="code" placeholder="请输入应用编号"/>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item nz-row class="register-area">
+                <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <button nz-button nzType="primary" [disabled]="!form.dirty || form.invalid">保存
+                    </button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
+
+</div>
