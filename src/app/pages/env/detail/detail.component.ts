@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {map} from "rxjs/operators";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {EnvService} from "../env.service";
+import {ProjectService} from "../../project/project.service";
 
 @Component({
     selector: 'app-detail',
@@ -14,32 +14,7 @@ import {EnvService} from "../env.service";
 export class DetailComponent implements OnInit {
 
     form: FormGroup;
-
-
-    nameAsyncValidator(control: FormControl) {
-        // fixme 每输入一个字符都会发送一个http请求进行后台校验，会影响性能，应该改成几秒内发送一次
-        return this.service.checkName(control.value).pipe(
-            map(res => {
-                if (res) {
-                    return {}
-                } else {
-                    return {error: true, duplicated: true}
-                }
-            })
-        )
-    }
-
-
-    submitForm(): void {
-        for (const i in this.form.controls) {
-            this.form.controls[i].markAsDirty();
-            this.form.controls[i].updateValueAndValidity();
-        }
-        this.http.post(`/api/config/env`, this.form.value).subscribe(res => {
-            this.message.create('success', '创建成功')
-            this.router.navigate(['/env'])
-        })
-    }
+    projectId;
 
     constructor(
         private fb: FormBuilder,
@@ -47,13 +22,30 @@ export class DetailComponent implements OnInit {
         private service: EnvService,
         private router: Router,
         private message: NzMessageService,
+        private projectService: ProjectService,
     ) {
     }
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            name: [null, [Validators.required, Validators.pattern('^[a-zA-Z0-9\-]+$')], [this.nameAsyncValidator.bind(this)]],
-            remark: [null, [Validators.required]]
+            name: [null],
+            code: [null]
         });
+
+        const current = this.projectService.getCurrent()
+        this.projectId = current.id
+
     }
+
+    submitForm(): void {
+        for (const i in this.form.controls) {
+            this.form.controls[i].markAsDirty();
+            this.form.controls[i].updateValueAndValidity();
+        }
+        this.http.post(`/api/config/env?projectId=${this.projectId}`, this.form.value).subscribe(() => {
+            this.message.create('success', '创建成功')
+            this.router.navigate(['/env'])
+        })
+    }
+
 }

@@ -23,12 +23,12 @@ export class ListComponent implements OnInit {
 
     constructor(
         private http: HttpClient,
-        private project: ProjectService,
+        private projectService: ProjectService,
     ) {
     }
 
     ngOnInit(): void {
-        const current = this.project.getCurrent()
+        const current = this.projectService.getCurrent()
         this.param.projectId = current.id
 
         this.load()

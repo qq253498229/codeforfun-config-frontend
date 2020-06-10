@@ -6,8 +6,7 @@ import {
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../project.service";
 import {Router} from "@angular/router";
-import {NzMessageService, NzNotificationService} from "ng-zorro-antd";
-import * as _ from 'lodash'
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
     selector: 'app-detail',

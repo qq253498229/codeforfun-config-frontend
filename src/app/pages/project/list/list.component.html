@@ -8,7 +8,9 @@
 </div>
 <div nz-row>
     <div nz-col nzSpan="24">
-        <nz-table #basicTable [nzData]="listOfData">
+        <nz-table #basicTable [nzData]="result.content" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
+                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.totalElements"
+                  (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
             <thead>
             <tr>
                 <th>项目名</th>

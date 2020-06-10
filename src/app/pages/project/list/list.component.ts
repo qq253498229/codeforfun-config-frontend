@@ -10,7 +10,15 @@ import {NzMessageService} from "ng-zorro-antd";
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-    listOfData = [];
+    param = {
+        page: 0,
+        size: 10,
+    }
+
+    result = {
+        content: [],
+        totalElements: 0
+    }
 
     current: { id: number, name: string }
 
@@ -26,14 +34,16 @@ export class ListComponent implements OnInit {
     }
 
     private load() {
-        this.http.get<any[]>('/api/config/project').subscribe(res => {
-            this.listOfData = res[`content`]
+        // @ts-ignore
+        this.http.get('/api/config/project', {params: this.param}).subscribe(res => {
+            this.result.content = res[`content`]
+            this.result.totalElements = res[`totalElements`]
         })
         this.current = this.service.getCurrent()
     }
 
     setCurrent(id) {
-        this.current = _.find(this.listOfData, o => o.id == id)
+        this.current = _.find(this.result.content, o => o.id == id)
         this.service.setCurrent({id: this.current[`id`], name: this.current[`name`], remark: this.current[`code`]})
     }
 
@@ -42,5 +52,10 @@ export class ListComponent implements OnInit {
             this.message.create('success', '删除成功')
             this.load()
         })
+    }
+
+    changePage(pageSize) {
+        this.param.page = pageSize - 1
+        this.load()
     }
 }
