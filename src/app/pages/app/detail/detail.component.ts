@@ -5,6 +5,7 @@ import {EnvService} from "../../env/env.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {ProjectService} from "../../project/project.service";
+import * as _ from 'lodash'
 
 @Component({
     selector: 'app-detail',
@@ -15,8 +16,19 @@ export class DetailComponent implements OnInit {
 
 
     form: FormGroup;
-    projectId;
     app;
+
+    param = {
+        envId: null,
+        projectId: null,
+    }
+
+    result = {
+        envList: [],
+        confList: [],
+        checkbox: [],
+    }
+
 
     constructor(
         private fb: FormBuilder,
@@ -34,13 +46,12 @@ export class DetailComponent implements OnInit {
             id: [],
             name: [],
             code: [],
-            envList: []
         });
 
         const current = this.projectService.getCurrent()
-        this.projectId = current.id
+        this.param.projectId = current.id
         this.loadEnv()
-        // this.loadApp()
+        this.loadApp()
     }
 
     submitForm(): void {
@@ -48,10 +59,12 @@ export class DetailComponent implements OnInit {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
-        this.http.post(`/api/config/app?projectId=${this.projectId}`, this.form.value).subscribe(() => {
-            this.message.create('success', '创建成功')
-            this.router.navigate(['/app'])
-        })
+        // this.http.post(`/api/config/app?projectId=${this.projectId}`, this.form.value).subscribe(() => {
+        //     this.message.create('success', '创建成功')
+        //     this.router.navigate(['/app'])
+        // })
+        console.log('submitForm value', this.form.value)
+        console.log('submitForm envList', this.result.envList)
     }
 
     loadApp() {
@@ -67,8 +80,18 @@ export class DetailComponent implements OnInit {
     }
 
     loadEnv() {
-        this.http.get(`/api/config/env/findAll?projectId=${this.projectId}`).subscribe(res => {
-            console.log(res)
+        this.http.get<any[]>(`/api/config/env/findAll?projectId=${this.param.projectId}`).subscribe(res => {
+            this.result.envList = res
+            _.forEach(this.result.envList, e => {
+                _.forEach(e.configList, c => {
+                    c.value = c.id
+                    c.label = c.name
+                })
+            })
         })
+    }
+
+    log($event: any) {
+        console.log('log', $event)
     }
 }
