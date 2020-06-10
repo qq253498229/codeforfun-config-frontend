@@ -16,7 +16,7 @@ export class DetailComponent implements OnInit {
 
     form: FormGroup;
     projectId;
-    app
+    app;
 
     constructor(
         private fb: FormBuilder,
@@ -39,7 +39,8 @@ export class DetailComponent implements OnInit {
 
         const current = this.projectService.getCurrent()
         this.projectId = current.id
-        this.load()
+        this.loadEnv()
+        // this.loadApp()
     }
 
     submitForm(): void {
@@ -53,7 +54,7 @@ export class DetailComponent implements OnInit {
         })
     }
 
-    load() {
+    loadApp() {
         this.route.paramMap.subscribe(p => {
             const id = p.get('id')
             if (id) {
@@ -62,6 +63,12 @@ export class DetailComponent implements OnInit {
                     this.form.patchValue(res)
                 })
             }
+        })
+    }
+
+    loadEnv() {
+        this.http.get(`/api/config/env/findAll?projectId=${this.projectId}`).subscribe(res => {
+            console.log(res)
         })
     }
 }
