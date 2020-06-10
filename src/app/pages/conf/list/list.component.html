@@ -34,7 +34,8 @@
                 <td>{{ data.name }}</td>
                 <td>{{ data.code }}</td>
                 <td>
-                    <a nz-popconfirm nzPopconfirmTitle="您确认要删除这个配置吗，删除后数据将无法恢复?" (nzOnConfirm)="delete(data.id)">删除</a>
+                    <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个配置吗，删除后数据将无法恢复?"
+                       (nzOnConfirm)="delete(data.id)">删除</a>
                 </td>
             </tr>
             </tbody>
