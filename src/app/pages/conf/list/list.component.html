@@ -1,1 +1,43 @@
-<p>list works!</p>
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <h1>环境</h1>
+    </div>
+    <div nz-col nzSpan="24">
+        <nz-radio-group [(ngModel)]="param.envId" nzButtonStyle="solid" (ngModelChange)="changeEnv($event)">
+            <ng-container *ngFor="let item of envList">
+                <label nz-radio-button [nzValue]="item.id">{{ item.name }}</label>
+            </ng-container>
+        </nz-radio-group>
+    </div>
+</div>
+
+<div nz-row class="mt10">
+    <div nz-col nzSpan="22">
+        <h1>配置列表</h1>
+    </div>
+    <div nz-col nzSpan="2">
+        <button nz-button nzType="primary" [routerLink]="'/conf/new/'+param.envId">新建配置</button>
+    </div>
+    <div nz-col nzSpan="24">
+        <nz-table #basicTable [nzData]="result.content" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
+                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.totalElements"
+                  (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
+            <thead>
+            <tr>
+                <th>配置名</th>
+                <th>配置编号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{ data.name }}</td>
+                <td>{{ data.code }}</td>
+                <td>
+                    <a nz-popconfirm nzPopconfirmTitle="您确认要删除这个配置吗，删除后数据将无法恢复?" (nzOnConfirm)="delete(data.id)">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
