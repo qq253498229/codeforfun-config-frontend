@@ -4,6 +4,20 @@
   margin-top: 10px;
 }
 
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mb0 {
+  margin-bottom: 0;
+}
+
 .color-red {
   color: red;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
