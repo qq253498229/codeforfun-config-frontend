@@ -34,11 +34,30 @@
 
 <div nz-row>
     <div nz-col nzSpan="12" nzOffset="6">
-
         <nz-tabset>
             <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.name">
                 <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
+
+                <h1 class="mt20">
+                    bootstrap-{{ item.code }}.yml 配置示例
+                    <button nz-button nzType="primary" (click)="copyInputMessage(configText)">复制</button>
+                </h1>
+                <!--@formatter:off-->
+<textarea nz-input [nzAutosize]="{ minRows: 10, maxRows: 20 }" #configText>
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888/api/config
+  application:
+    name: {{ param.projectCode }}_{{ app.code }}
+  profiles:
+    active: {{ item.code }}
+</textarea>
+<!--@formatter:on-->
+
             </nz-tab>
         </nz-tabset>
     </div>
 </div>
+
+

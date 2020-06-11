@@ -21,6 +21,7 @@ export class DetailComponent implements OnInit {
     param = {
         envId: null,
         projectId: null,
+        projectCode: null,
     }
 
     result = {
@@ -51,6 +52,7 @@ export class DetailComponent implements OnInit {
 
         const current = this.projectService.getCurrent()
         this.param.projectId = current.id
+        this.param.projectCode = current.code
         this.loadApp()
     }
 
@@ -101,5 +103,12 @@ export class DetailComponent implements OnInit {
                 })
             })
         })
+    }
+
+    copyInputMessage(inputElement) {
+        inputElement.select();
+        document.execCommand('copy');
+        inputElement.setSelectionRange(0, 0);
+        this.message.create('success', `复制成功！`);
     }
 }
