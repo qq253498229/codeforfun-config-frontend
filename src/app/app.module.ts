@@ -30,7 +30,7 @@ registerLocaleData(zh);
             //快捷键，默认?
             cheatSheetHotkey: '?',
             //是否允许使用ESC快捷键关闭，默认false
-            cheatSheetCloseEsc: false,
+            cheatSheetCloseEsc: true,
             cheatSheetCloseEscDescription: '隐藏帮助页面',
             cheatSheetDescription: '显示 / 隐藏帮助页面'
         })
