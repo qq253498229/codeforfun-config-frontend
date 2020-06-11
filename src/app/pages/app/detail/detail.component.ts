@@ -93,7 +93,6 @@ export class DetailComponent implements OnInit {
         this.http.get<any[]>(`/api/config/env/findAll?projectId=${this.param.projectId}`).subscribe(res => {
             this.result.envList = res
             const configList = this.form.get('configList').value
-            console.log('configList', configList)
             _.forEach(this.result.envList, e => {
                 _.forEach(e.configList, c => {
                     c.value = c.id

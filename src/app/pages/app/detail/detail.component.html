@@ -37,36 +37,8 @@
 
         <nz-tabset>
             <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.name">
-                <nz-checkbox-group [(ngModel)]="item.configList"
-                                   (ngModelChange)="log($event)"></nz-checkbox-group>
-
-
-                <!--<nz-checkbox-wrapper>
-                    <label *ngFor="let c of item.configList" nz-checkbox [nzValue]="c.id">{{c.name}}</label>
-                </nz-checkbox-wrapper>-->
-
+                <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
             </nz-tab>
         </nz-tabset>
     </div>
 </div>
-
-<!--<div nz-row>-->
-<!--    <div nz-col nzSpan="24">-->
-<!--        <h1 class="container">环境列表</h1>-->
-<!--    </div>-->
-<!--    <div nz-col nzSpan="12" nzOffset="6">-->
-<!--        <nz-radio-group [(ngModel)]="param.envId" nzButtonStyle="solid" (ngModelChange)="changeEnv($event)">-->
-<!--            <ng-container *ngFor="let item of result.envList">-->
-<!--                <label nz-radio-button [nzValue]="item.id">{{ item.name }}</label>-->
-<!--            </ng-container>-->
-<!--        </nz-radio-group>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<div nz-row class="mt10">-->
-<!--    <div nz-col nzSpan="24">-->
-<!--        <h1 class="container">配置列表</h1>-->
-<!--    </div>-->
-<!--    <div nz-col nzSpan="12" nzOffset="6">-->
-<!--        <nz-checkbox-group [(ngModel)]="result.checkbox" (ngModelChange)="updateCheckbox($event)"></nz-checkbox-group>-->
-<!--    </div>-->
-<!--</div>-->
