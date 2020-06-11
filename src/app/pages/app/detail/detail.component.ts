@@ -46,11 +46,11 @@ export class DetailComponent implements OnInit {
             id: [],
             name: [],
             code: [],
+            configList: [],
         });
 
         const current = this.projectService.getCurrent()
         this.param.projectId = current.id
-        this.loadEnv()
         this.loadApp()
     }
 
@@ -59,12 +59,19 @@ export class DetailComponent implements OnInit {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
-        // this.http.post(`/api/config/app?projectId=${this.projectId}`, this.form.value).subscribe(() => {
-        //     this.message.create('success', '创建成功')
-        //     this.router.navigate(['/app'])
-        // })
-        console.log('submitForm value', this.form.value)
-        console.log('submitForm envList', this.result.envList)
+        const configList = []
+        this.result.envList.forEach(e => {
+            e.configList.forEach(c => {
+                if (c.checked === true) {
+                    configList.push(c)
+                }
+            })
+        })
+        this.form.patchValue({configList: configList})
+        this.http.post(`/api/config/app?projectId=${this.param.projectId}`, this.form.value).subscribe(() => {
+            this.message.create('success', '创建成功')
+            this.router.navigate(['/app'])
+        })
     }
 
     loadApp() {
@@ -74,7 +81,10 @@ export class DetailComponent implements OnInit {
                 this.http.get(`/api/config/app/${id}`).subscribe(res => {
                     this.app = res
                     this.form.patchValue(res)
+                    this.loadEnv()
                 })
+            } else {
+                this.loadEnv()
             }
         })
     }
@@ -82,10 +92,13 @@ export class DetailComponent implements OnInit {
     loadEnv() {
         this.http.get<any[]>(`/api/config/env/findAll?projectId=${this.param.projectId}`).subscribe(res => {
             this.result.envList = res
+            const configList = this.form.get('configList').value
+            console.log('configList', configList)
             _.forEach(this.result.envList, e => {
                 _.forEach(e.configList, c => {
                     c.value = c.id
                     c.label = c.name
+                    c.checked = _.findIndex(configList, {id: c.id}) > -1
                 })
             })
         })

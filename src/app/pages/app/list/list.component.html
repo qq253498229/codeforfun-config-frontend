@@ -11,12 +11,14 @@
     <ng-container *ngIf="result.content.length > 0">
         <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.content">
             <nz-card [nzBordered]="false" [nzTitle]="item.name" nzHoverable="true" [routerLink]="'/app/edit/'+item.id">
-                <p *ngIf="item.envList.length == 0">该项目目前没有配置</p>
-                <form *ngIf="item.envList.length > 0">
-                    <nz-form-item class="mb0">
-                        <nz-form-label [nzSm]="6" [nzXs]="24">开发环境</nz-form-label>
-                        <nz-form-control [nzSm]="14" [nzXs]="24">
-                            <span>数据库、RabbitMQ</span>
+                <p *ngIf="item.configList.length == 0">该项目目前没有配置</p>
+                <form *ngIf="item.configList.length > 0">
+                    <nz-form-item class="mb0" *ngFor="let c of item.configList">
+                        <nz-form-label nzSpan="10">
+                            配置: {{ c.name }}
+                        </nz-form-label>
+                        <nz-form-control nzSpan="10" nzOffset="4">
+                            环境: {{ c.env.name }}
                         </nz-form-control>
                     </nz-form-item>
                 </form>
