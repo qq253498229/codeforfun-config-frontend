@@ -5,9 +5,7 @@
 </div>
 <div nz-row>
     <div nz-col nzSpan="24">
-
         <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-
             <nz-form-item>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">配置名</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -24,11 +22,34 @@
 
             <nz-form-item nz-row class="register-area">
                 <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                    <button nz-button nzType="primary" [disabled]="!form.dirty || form.invalid">保存
-                    </button>
+                    <button nz-button nzType="primary">保存</button>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <button nz-button type="button" nzType="primary" (click)="format = !format">切换模式</button>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <button nz-button type="button" nzType="primary" (click)="addProperty()">添加属性</button>
                 </nz-form-control>
             </nz-form-item>
         </form>
     </div>
+</div>
+<div nz-row *ngIf="format">
+    <div nz-col nzSpan="24">
+        <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+            <ng-container>
+                <nz-form-item *ngFor="let item of propertyList.controls; let i=index">
+                    <ng-container [formGroup]="item">
+                        <nz-form-label nzSpan="1" nzOffset="5">Key</nz-form-label>
+                        <nz-form-control nzSpan="6">
+                            <input nz-input placeholder="Key" formControlName="key"/>
+                        </nz-form-control>
 
+                        <nz-form-label nzSpan="1">Value</nz-form-label>
+                        <nz-form-control nzSpan="6">
+                            <input nz-input placeholder="Value" formControlName="value"/>
+                        </nz-form-control>
+                    </ng-container>
+                </nz-form-item>
+            </ng-container>
+        </form>
+    </div>
 </div>

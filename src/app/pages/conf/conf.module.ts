@@ -8,6 +8,7 @@ import {DetailComponent} from './detail/detail.component';
 const routes: Routes = [
     {path: '', component: ListComponent},
     {path: 'new/:envId', component: DetailComponent},
+    {path: 'edit/:envId/:id', component: DetailComponent},
 ]
 
 @NgModule({

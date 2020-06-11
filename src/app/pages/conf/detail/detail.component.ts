@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {EnvService} from "../../env/env.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -17,6 +17,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     projectId
     envId
     keys = []
+    format = true
 
     constructor(
         private fb: FormBuilder,
@@ -32,8 +33,10 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            name: [null],
-            code: [null]
+            id: [],
+            name: [],
+            code: [],
+            propertyList: this.fb.array([])
         });
 
         const current = this.projectService.getCurrent()
@@ -41,6 +44,10 @@ export class DetailComponent implements OnInit, OnDestroy {
 
         this.route.paramMap.subscribe(res => {
             this.envId = res.get('envId')
+            const id = res.get('id')
+            if (id) {
+                this.load(id)
+            }
         })
 
         this.keys.push(this.hotkey.add(new Hotkey(['alt+n', 'option+n'], (): boolean => {
@@ -51,6 +58,17 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.router.navigate(['/conf'])
             return false; // Prevent bubbling
         }, undefined, '配置列表')))
+    }
+
+    get propertyList() {
+        return this.form.get('propertyList') as FormArray
+    }
+
+    load(id: string) {
+        this.http.get(`/api/config/conf/${id}`).subscribe(res => {
+            this.form.patchValue(res)
+            res[`propertyList`].forEach(p => this.addProperty(p))
+        })
     }
 
     ngOnDestroy(): void {
@@ -68,5 +86,13 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.message.create('success', '创建成功')
             this.router.navigate(['/conf'])
         })
+    }
+
+    addProperty(obj?: any) {
+        this.propertyList.push(this.fb.group({
+            id: [obj ? obj.id : null],
+            key: [obj ? obj.key : null],
+            value: [obj ? obj.value : null],
+        }))
     }
 }
