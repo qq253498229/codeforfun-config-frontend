@@ -12,11 +12,12 @@
         <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.content">
             <nz-card [nzBordered]="false" [nzTitle]="item.name" nzHoverable="true" [routerLink]="'/app/edit/'+item.id">
                 <div *ngIf="item.configList.length == 0">该项目目前没有配置</div>
-                <ng-container *ngIf="item.configList.length > 0">
-                    <div nz-row *ngFor="let c of item.configList">
-                        {{ c.name }}
-                    </div>
-                </ng-container>
+                <div nz-row *ngIf="item.configList.length > 0">
+                    <ng-container *ngFor="let c of item.configList">
+                        <div nz-col nzSpan="12">配置: {{ c.name }}</div>
+                        <div nz-col nzSpan="12">环境: {{ c.env.name }}</div>
+                    </ng-container>
+                </div>
             </nz-card>
         </div>
     </ng-container>
