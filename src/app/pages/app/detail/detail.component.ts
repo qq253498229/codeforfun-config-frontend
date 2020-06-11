@@ -102,8 +102,4 @@ export class DetailComponent implements OnInit {
             })
         })
     }
-
-    log($event: any) {
-        console.log('log', $event)
-    }
 }
