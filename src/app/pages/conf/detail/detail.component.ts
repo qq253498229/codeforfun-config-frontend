@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {EnvService} from "../../env/env.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -18,6 +18,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     envId
     keys = []
     format = true
+    propertyText = ''
 
     constructor(
         private fb: FormBuilder,
@@ -67,7 +68,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     load(id: string) {
         this.http.get(`/api/config/conf/${id}`).subscribe(res => {
             this.form.patchValue(res)
-            res[`propertyList`].forEach(p => this.addProperty(p))
+            this.formatChange(res)
         })
     }
 
@@ -82,6 +83,7 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
+        this.convertTextToForm()
         this.http.post(`/api/config/conf?envId=${this.envId}`, this.form.value).subscribe(() => {
             this.message.create('success', '创建成功')
             this.router.navigate(['/conf'])
@@ -94,5 +96,33 @@ export class DetailComponent implements OnInit, OnDestroy {
             key: [obj ? obj.key : null],
             value: [obj ? obj.value : null],
         }))
+    }
+
+    formatChange(res?: any) {
+        if (res) {
+            res[`propertyList`].forEach(p => this.addProperty(p))
+        }
+        if (this.format) {
+            this.propertyText = ''
+            this.form.value.propertyList.forEach(p => {
+                this.propertyText += p.key + "=" + p.value + "\n"
+            })
+        }
+    }
+
+    remove(idx) {
+        this.propertyList.removeAt(idx)
+    }
+
+    convertTextToForm() {
+        const result = []
+        const list = this.propertyText.split("\n")
+        list.forEach(o => {
+            if (o.indexOf("=") > 0) {
+                const obj = o.split("=")
+                result.push({key: obj[0], value: obj[1]})
+            }
+        })
+        this.form.value.propertyList = result
     }
 }

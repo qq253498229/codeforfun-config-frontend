@@ -24,15 +24,18 @@
                 <nz-form-control [nzSpan]="14" [nzOffset]="6">
                     <button nz-button nzType="primary">保存</button>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <button nz-button type="button" nzType="primary" (click)="format = !format">切换模式</button>
-                    <nz-divider nzType="vertical"></nz-divider>
-                    <button nz-button type="button" nzType="primary" (click)="addProperty()">添加属性</button>
+                    <button nz-button type="button" nzType="primary" (click)="format = !format;formatChange()">切换模式
+                    </button>
+                    <ng-container *ngIf="!format">
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <button nz-button type="button" nzType="primary" (click)="addProperty()">添加属性</button>
+                    </ng-container>
                 </nz-form-control>
             </nz-form-item>
         </form>
     </div>
 </div>
-<div nz-row *ngIf="format">
+<div nz-row *ngIf="!format">
     <div nz-col nzSpan="24">
         <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
             <ng-container>
@@ -47,9 +50,18 @@
                         <nz-form-control nzSpan="6">
                             <input nz-input placeholder="Value" formControlName="value"/>
                         </nz-form-control>
+
+                        <div nz-col nzSpan="1" class="property-icon" (click)="remove(i)">
+                            <i nz-icon nzType="minus-circle" nzTheme="twotone"></i>
+                        </div>
                     </ng-container>
                 </nz-form-item>
             </ng-container>
         </form>
+    </div>
+</div>
+<div nz-row *ngIf="format">
+    <div nz-col nzSpan="13" nzOffset="6">
+        <textarea nz-input [nzAutosize]="{ minRows: 10, maxRows: 20 }" [(ngModel)]="propertyText">    </textarea>
     </div>
 </div>
