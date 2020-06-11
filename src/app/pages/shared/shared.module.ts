@@ -8,6 +8,7 @@ import {
 } from "ng-zorro-antd";
 import {InputTrimModule} from "ng2-trim-directive";
 import {BadRequestInterceptor} from "./bad-request.interceptor";
+import {HotkeyModule} from "angular2-hotkeys";
 
 const THIRD_MODULES = [
     FormsModule,
@@ -16,6 +17,7 @@ const THIRD_MODULES = [
     HttpClientModule,
     NgZorroAntdModule,
     InputTrimModule,
+    HotkeyModule,
 ];
 
 const COMPONENTS = [];

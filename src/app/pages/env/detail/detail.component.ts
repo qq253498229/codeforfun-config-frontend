@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
@@ -11,7 +11,7 @@ import {ProjectService} from "../../project/project.service";
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
     projectId;
@@ -34,7 +34,11 @@ export class DetailComponent implements OnInit {
 
         const current = this.projectService.getCurrent()
         this.projectId = current.id
+        this.service.init()
+    }
 
+    ngOnDestroy(): void {
+        this.service.destroy()
     }
 
     submitForm(): void {

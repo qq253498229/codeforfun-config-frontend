@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../../project/project.service";
+import {AppService} from "../app.service";
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
 
     param = {
         page: 0,
@@ -22,6 +23,7 @@ export class ListComponent implements OnInit {
     constructor(
         private http: HttpClient,
         private projectService: ProjectService,
+        private service: AppService,
     ) {
     }
 
@@ -30,6 +32,11 @@ export class ListComponent implements OnInit {
         this.param.projectId = current.id
 
         this.load()
+        this.service.init()
+    }
+
+    ngOnDestroy(): void {
+        this.service.destroy()
     }
 
     load() {

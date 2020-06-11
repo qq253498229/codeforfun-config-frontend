@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -13,7 +13,7 @@ import {NzMessageService} from "ng-zorro-antd";
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
 
@@ -31,6 +31,11 @@ export class DetailComponent implements OnInit {
             name: [null],
             code: [null]
         });
+        this.service.init()
+    }
+
+    ngOnDestroy(): void {
+        this.service.destroy()
     }
 
     // 校验项目名

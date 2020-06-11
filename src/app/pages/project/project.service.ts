@@ -1,14 +1,19 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
+import {Hotkey, HotkeysService} from "angular2-hotkeys";
+import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProjectService {
+    keys = []
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private hotkey: HotkeysService,
+        private router: Router,
     ) {
     }
 
@@ -43,7 +48,20 @@ export class ProjectService {
         return subject;
     }
 
-    checkName(name: string) {
-        return this.http.get('/api/config/project/checkName/' + name)
+    init() {
+        this.keys.push(this.hotkey.add(new Hotkey(['alt+n', 'option+n'], (): boolean => {
+            this.router.navigate(['/project/new'])
+            return false; // Prevent bubbling
+        }, undefined, '新建项目')))
+        this.keys.push(this.hotkey.add(new Hotkey(['alt+l', 'option+l'], (): boolean => {
+            this.router.navigate(['/project'])
+            return false; // Prevent bubbling
+        }, undefined, '项目列表')))
+    }
+
+    destroy() {
+        this.keys.forEach(k => {
+            this.hotkey.remove(k)
+        })
     }
 }

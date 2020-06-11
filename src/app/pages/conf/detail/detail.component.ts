@@ -1,20 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {EnvService} from "../../env/env.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {ProjectService} from "../../project/project.service";
+import {Hotkey, HotkeysService} from "angular2-hotkeys";
 
 @Component({
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
     form: FormGroup;
     projectId
     envId
+    keys = []
 
     constructor(
         private fb: FormBuilder,
@@ -24,6 +26,7 @@ export class DetailComponent implements OnInit {
         private message: NzMessageService,
         private projectService: ProjectService,
         private route: ActivatedRoute,
+        private hotkey: HotkeysService,
     ) {
     }
 
@@ -38,6 +41,21 @@ export class DetailComponent implements OnInit {
 
         this.route.paramMap.subscribe(res => {
             this.envId = res.get('envId')
+        })
+
+        this.keys.push(this.hotkey.add(new Hotkey(['alt+n', 'option+n'], (): boolean => {
+            this.router.navigate(['/conf/new', this.envId])
+            return false; // Prevent bubbling
+        }, undefined, '新建配置')))
+        this.keys.push(this.hotkey.add(new Hotkey(['alt+l', 'option+l'], (): boolean => {
+            this.router.navigate(['/conf'])
+            return false; // Prevent bubbling
+        }, undefined, '配置列表')))
+    }
+
+    ngOnDestroy(): void {
+        this.keys.forEach(k => {
+            this.hotkey.remove(k)
         })
     }
 

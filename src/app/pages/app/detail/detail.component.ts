@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
-import {EnvService} from "../../env/env.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {ProjectService} from "../../project/project.service";
 import * as _ from 'lodash'
+import {AppService} from "../app.service";
 
 @Component({
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss']
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
 
 
     form: FormGroup;
@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private http: HttpClient,
-        private service: EnvService,
+        private service: AppService,
         private router: Router,
         private message: NzMessageService,
         private projectService: ProjectService,
@@ -54,6 +54,11 @@ export class DetailComponent implements OnInit {
         this.param.projectId = current.id
         this.param.projectCode = current.code
         this.loadApp()
+        this.service.init()
+    }
+
+    ngOnDestroy(): void {
+        this.service.destroy()
     }
 
     submitForm(): void {

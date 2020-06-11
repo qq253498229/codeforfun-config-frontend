@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
-export class EnvService {
+export class AppService {
     keys = []
 
     constructor(
@@ -17,13 +16,13 @@ export class EnvService {
 
     init() {
         this.keys.push(this.hotkey.add(new Hotkey(['alt+n', 'option+n'], (): boolean => {
-            this.router.navigate(['/env/new'])
+            this.router.navigate(['/app/new'])
             return false; // Prevent bubbling
-        }, undefined, '新建环境')))
+        }, undefined, '新建应用')))
         this.keys.push(this.hotkey.add(new Hotkey(['alt+l', 'option+l'], (): boolean => {
-            this.router.navigate(['/env'])
+            this.router.navigate(['/app'])
             return false; // Prevent bubbling
-        }, undefined, '环境列表')))
+        }, undefined, '应用列表')))
     }
 
     destroy() {
@@ -32,3 +31,4 @@ export class EnvService {
         })
     }
 }
+

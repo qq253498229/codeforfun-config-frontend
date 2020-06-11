@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ProjectService} from "../project.service";
 import {HttpClient} from "@angular/common/http";
 import * as _ from 'lodash'
@@ -9,7 +9,7 @@ import {NzMessageService} from "ng-zorro-antd";
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
     param = {
         page: 0,
         size: 10,
@@ -31,6 +31,11 @@ export class ListComponent implements OnInit {
 
     ngOnInit(): void {
         this.load()
+        this.service.init()
+    }
+
+    ngOnDestroy(): void {
+        this.service.destroy()
     }
 
     private load() {
