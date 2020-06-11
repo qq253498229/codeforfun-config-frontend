@@ -21,5 +21,10 @@
             </nz-card>
         </div>
     </ng-container>
-
+</div>
+<div nz-row class="mt20">
+    <div nz-col nzSpan="4" nzOffset="20">
+        <nz-pagination [nzPageIndex]="param.page+1" [nzTotal]="result.totalElements" nzSimple nzHideOnSinglePage="true"
+                       (nzPageIndexChange)="changePage($event)"></nz-pagination>
+    </div>
 </div>

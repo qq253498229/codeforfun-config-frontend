@@ -11,7 +11,7 @@ export class ListComponent implements OnInit {
 
     param = {
         page: 0,
-        size: 10,
+        size: 12,
         projectId: null
     }
     result = {
@@ -35,6 +35,7 @@ export class ListComponent implements OnInit {
     load() {
         // @ts-ignore
         this.http.get(`/api/config/app`, {params: this.param}).subscribe(res => {
+            console.log('res', res)
             this.result.content = res[`content`]
             this.result.totalElements = res[`totalElements`]
         })
