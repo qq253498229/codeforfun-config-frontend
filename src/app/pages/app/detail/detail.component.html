@@ -49,7 +49,7 @@ spring:
     config:
       uri: http://localhost:8888/api/config
   application:
-    name: {{ param.projectCode }}_{{ app.code }}
+    name: {{ param.projectCode }}_{{ form.get('code').value }}
   profiles:
     active: {{ item.code }}
 </textarea>
