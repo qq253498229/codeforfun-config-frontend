@@ -1,7 +1,4 @@
-<div nz-row>
-    <div nz-col nzSpan="24">
-        <h1>环境列表</h1>
-    </div>
+<div nz-row *ngIf="envList.length > 0" class="mb10">
     <div nz-col nzSpan="24">
         <nz-radio-group [(ngModel)]="param.envId" nzButtonStyle="solid" (ngModelChange)="changeEnv($event)">
             <ng-container *ngFor="let item of envList">
@@ -11,13 +8,20 @@
     </div>
 </div>
 
-<div nz-row class="mt10" *ngIf="envList.length > 0">
+<div nz-row>
     <div nz-col nzSpan="22">
         <h1>配置列表</h1>
     </div>
-    <div nz-col nzSpan="2">
+    <div nz-col nzSpan="2" *ngIf="envList.length > 0">
         <button nz-button nzType="primary" [routerLink]="'/conf/new/'+param.envId">新建配置</button>
     </div>
+</div>
+<div nz-row *ngIf="envList.length == 0">
+    <h1>
+        当前还没有环境，需要先创建环境，点击<a routerLink="/env/new">创建</a>
+    </h1>
+</div>
+<div nz-row *ngIf="envList.length > 0">
     <div nz-col nzSpan="24">
         <nz-table #basicTable [nzData]="result.content" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
                   [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.totalElements"
@@ -45,8 +49,3 @@
     </div>
 </div>
 
-<div nz-row class="mt10" *ngIf="envList.length == 0">
-    <h1>
-        当前还没有环境，点击<a routerLink="/env/new">创建</a>
-    </h1>
-</div>

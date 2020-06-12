@@ -34,9 +34,20 @@
 
 <div nz-row>
     <div nz-col nzSpan="12" nzOffset="6">
+        <h1>当前还没有环境，点击 <a routerLink="/env/new">创建</a> </h1>
+    </div>
+</div>
+
+<div nz-row>
+    <div nz-col nzSpan="12" nzOffset="6">
         <nz-tabset>
             <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.name">
-                <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
+                <ng-container *ngIf="item.configList.length > 0">
+                    <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
+                </ng-container>
+                <ng-container *ngIf="item.configList.length == 0">
+                    当前还没有配置，点击去 <a [routerLink]="'/conf/new/'+item.id">创建</a>
+                </ng-container>
 
                 <h1 class="mt20">
                     bootstrap-{{ item.code }}.yml 配置示例

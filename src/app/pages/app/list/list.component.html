@@ -2,25 +2,27 @@
     <div nz-col nzSpan="22">
         <h1>应用列表</h1>
     </div>
-    <div nz-col nzSpan="2">
+    <div nz-col nzSpan="2" *ngIf="result.content.length > 0">
         <button nz-button nzType="primary" routerLink="/app/new">新建应用</button>
     </div>
 </div>
-<div nz-row [nzGutter]="8">
-    <h1 *ngIf="result.content.length == 0">还没有应用，点击右上角新建</h1>
-    <ng-container *ngIf="result.content.length > 0">
-        <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.content">
-            <nz-card [nzBordered]="false" [nzTitle]="item.name" nzHoverable="true" [routerLink]="'/app/edit/'+item.id">
-                <div *ngIf="item.configList.length == 0">该项目目前没有配置</div>
-                <div nz-row *ngIf="item.configList.length > 0">
-                    <ng-container *ngFor="let c of item.configList">
-                        <div nz-col nzSpan="12">配置: {{ c.name }}</div>
-                        <div nz-col nzSpan="12">环境: {{ c.env.name }}</div>
-                    </ng-container>
-                </div>
-            </nz-card>
-        </div>
-    </ng-container>
+<div nz-row *ngIf="result.content.length == 0">
+    <h1>
+        当前还没有应用，点击 <a routerLink="/app/new">新建</a>
+    </h1>
+</div>
+<div nz-row [nzGutter]="8" *ngIf="result.content.length > 0">
+    <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.content">
+        <nz-card [nzBordered]="false" [nzTitle]="item.name" nzHoverable="true" [routerLink]="'/app/edit/'+item.id">
+            <div *ngIf="item.configList.length == 0">该项目目前没有配置</div>
+            <div nz-row *ngIf="item.configList.length > 0">
+                <ng-container *ngFor="let c of item.configList">
+                    <div nz-col nzSpan="12">配置: {{ c.name }}</div>
+                    <div nz-col nzSpan="12">环境: {{ c.env.name }}</div>
+                </ng-container>
+            </div>
+        </nz-card>
+    </div>
 </div>
 <div nz-row class="mt20">
     <div nz-col nzSpan="4" nzOffset="20">

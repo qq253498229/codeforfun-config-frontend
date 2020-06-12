@@ -2,11 +2,16 @@
     <div nz-col nzSpan="22">
         <h1>环境列表</h1>
     </div>
-    <div nz-col nzSpan="2">
+    <div nz-col nzSpan="2" *ngIf="result.content.length > 0">
         <button nz-button nzType="primary" routerLink="/env/new">新建环境</button>
     </div>
 </div>
-<div nz-row>
+<div nz-row *ngIf="result.content.length == 0">
+    <h1>
+        当前还没有环境，点击 <a routerLink="/env/new">创建</a>
+    </h1>
+</div>
+<div nz-row *ngIf="result.content.length > 0">
     <div nz-col nzSpan="24">
         <nz-table #basicTable [nzData]="result.content" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
                   [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.totalElements"
