@@ -32,13 +32,13 @@
     </div>
 </div>
 
-<div nz-row>
+<div nz-row *ngIf="result.envList.length == 0">
     <div nz-col nzSpan="12" nzOffset="6">
         <h1>当前还没有环境，点击 <a routerLink="/env/new">创建</a> </h1>
     </div>
 </div>
 
-<div nz-row>
+<div nz-row *ngIf="result.envList.length > 0">
     <div nz-col nzSpan="12" nzOffset="6">
         <nz-tabset>
             <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.name">

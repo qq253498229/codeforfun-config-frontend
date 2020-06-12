@@ -36,7 +36,6 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.form = this.fb.group({
             id: [],
             name: [],
-            code: [],
             propertyList: this.fb.array([])
         });
 
