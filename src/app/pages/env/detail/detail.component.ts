@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {EnvService} from "../env.service";
 import {ProjectService} from "../../project/project.service";
@@ -23,17 +23,27 @@ export class DetailComponent implements OnInit, OnDestroy {
         private router: Router,
         private message: NzMessageService,
         private projectService: ProjectService,
+        private route: ActivatedRoute,
     ) {
     }
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            name: [null],
-            code: [null]
+            id: [],
+            name: [],
+            code: []
         });
 
         const current = this.projectService.getCurrent()
         this.projectId = current.id
+
+        this.route.paramMap.subscribe(res => {
+            const id = res.get('id')
+            if (id) {
+                this.load(id)
+            }
+        })
+
         this.service.init()
     }
 
@@ -52,4 +62,9 @@ export class DetailComponent implements OnInit, OnDestroy {
         })
     }
 
+    load(id) {
+        this.http.get(`/api/config/env/${id}`).subscribe(res => {
+            this.form.patchValue(res)
+        })
+    }
 }

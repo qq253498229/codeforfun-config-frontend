@@ -65,7 +65,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         return this.form.get('propertyList') as FormArray
     }
 
-    load(id: string) {
+    load(id) {
         this.http.get(`/api/config/conf/${id}`).subscribe(res => {
             this.form.patchValue(res)
             this.formatChange(res)

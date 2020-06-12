@@ -30,6 +30,8 @@
                 <td>
                     <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个环境吗，删除后数据将无法恢复?"
                        (nzOnConfirm)="delete(data.id)">删除</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a [routerLink]="'/env/edit/'+data.id">配置</a>
                 </td>
             </tr>
             </tbody>
