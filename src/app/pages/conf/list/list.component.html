@@ -1,6 +1,6 @@
 <div nz-row>
     <div nz-col nzSpan="24">
-        <h1>环境</h1>
+        <h1>环境列表</h1>
     </div>
     <div nz-col nzSpan="24">
         <nz-radio-group [(ngModel)]="param.envId" nzButtonStyle="solid" (ngModelChange)="changeEnv($event)">
@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div nz-row class="mt10">
+<div nz-row class="mt10" *ngIf="envList.length > 0">
     <div nz-col nzSpan="22">
         <h1>配置列表</h1>
     </div>
@@ -43,4 +43,10 @@
             </tbody>
         </nz-table>
     </div>
+</div>
+
+<div nz-row class="mt10" *ngIf="envList.length == 0">
+    <h1>
+        当前还没有环境，点击<a routerLink="/env/new">创建</a>
+    </h1>
 </div>
