@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../../project/project.service";
 import {EnvService} from "../env.service";
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
     selector: 'app-list',
@@ -26,6 +27,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private http: HttpClient,
         private projectService: ProjectService,
         private service: EnvService,
+        private message: NzMessageService,
     ) {
     }
 
@@ -52,5 +54,12 @@ export class ListComponent implements OnInit, OnDestroy {
     changePage(pageSize) {
         this.param.page = pageSize - 1
         this.load()
+    }
+
+    delete(id) {
+        this.http.delete(`/api/config/env/${id}`).subscribe(res => {
+            this.message.create('success', '删除成功')
+            this.load()
+        })
     }
 }

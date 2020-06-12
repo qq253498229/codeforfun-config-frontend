@@ -22,7 +22,10 @@
             <tr *ngFor="let data of basicTable.data">
                 <td>{{ data.name }}</td>
                 <td>{{ data.code }}</td>
-                <td></td>
+                <td>
+                    <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个环境吗，删除后数据将无法恢复?"
+                       (nzOnConfirm)="delete(data.id)">删除</a>
+                </td>
             </tr>
             </tbody>
         </nz-table>
