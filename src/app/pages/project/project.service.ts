@@ -25,7 +25,11 @@ export class ProjectService {
     current$ = this.current.asObservable()
 
     setCurrent(obj: any) {
-        localStorage.setItem('CURRENT_PROJECT', JSON.stringify(obj))
+        if (obj) {
+            localStorage.setItem('CURRENT_PROJECT', JSON.stringify(obj))
+        } else {
+            localStorage.removeItem('CURRENT_PROJECT')
+        }
         this.current.next(obj)
     }
 

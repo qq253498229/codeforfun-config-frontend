@@ -46,7 +46,11 @@ export class AppComponent implements OnInit {
             this.current = currentProject[`projectName`]
         }
         this.projectService.current$.subscribe(res => {
-            this.current = res[`projectName`]
+            if (res) {
+                this.current = res[`projectName`]
+            } else {
+                this.current = ''
+            }
         })
     }
 }

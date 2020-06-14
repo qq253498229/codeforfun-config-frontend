@@ -29,7 +29,7 @@
                 <td>{{ data.projectCode }}</td>
                 <td>
                     <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个项目吗，删除后数据将无法恢复?"
-                       (nzOnConfirm)="delete(data.id)">删除</a>
+                       (nzOnConfirm)="delete(data.projectId)">删除</a>
                     <ng-container *ngIf="!current || current.projectName != data.projectName">
                         <nz-divider nzType="vertical"></nz-divider>
                         <a (click)="setCurrent(data.projectId)">设为当前项目</a>

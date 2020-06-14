@@ -56,6 +56,9 @@ export class ListComponent implements OnInit, OnDestroy {
     delete(id: number) {
         this.http.delete(`${environment.uri}/project/${id}`).subscribe(() => {
             this.message.create('success', '删除成功')
+            if (id == this.current.projectId) {
+                this.service.setCurrent(null)
+            }
             this.load()
         })
     }
