@@ -2,19 +2,19 @@
     <div nz-col nzSpan="22">
         <h1>项目列表</h1>
     </div>
-    <div nz-col nzSpan="2" *ngIf="result.content.length > 0">
+    <div nz-col nzSpan="2" *ngIf="result.list.length > 0">
         <button nz-button nzType="primary" routerLink="/project/new">新建项目</button>
     </div>
 </div>
-<div nz-row *ngIf="result.content.length == 0">
+<div nz-row *ngIf="result.list.length == 0">
     <h1>
         当前还没有项目，点击 <a routerLink="/project/new">新建</a>
     </h1>
 </div>
-<div nz-row *ngIf="result.content.length > 0">
+<div nz-row *ngIf="result.list.length > 0">
     <div nz-col nzSpan="24">
-        <nz-table #basicTable [nzData]="result.content" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
-                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.totalElements"
+        <nz-table #basicTable [nzData]="result.list" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
+                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.total"
                   (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
             <thead>
             <tr>
@@ -25,17 +25,17 @@
             </thead>
             <tbody>
             <tr *ngFor="let data of basicTable.data">
-                <td>{{ data.name }}</td>
-                <td>{{ data.code }}</td>
+                <td>{{ data.projectName }}</td>
+                <td>{{ data.projectCode }}</td>
                 <td>
                     <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个项目吗，删除后数据将无法恢复?"
                        (nzOnConfirm)="delete(data.id)">删除</a>
-                    <ng-container *ngIf="!current || current.name != data.name">
+                    <ng-container *ngIf="!current || current.projectName != data.projectName">
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a (click)="setCurrent(data.id)">设为当前项目</a>
+                        <a (click)="setCurrent(data.projectId)">设为当前项目</a>
                     </ng-container>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a [routerLink]="'/project/edit/'+data.id">配置</a>
+                    <a [routerLink]="'/project/edit/'+data.projectId">配置</a>
                 </td>
             </tr>
             </tbody>

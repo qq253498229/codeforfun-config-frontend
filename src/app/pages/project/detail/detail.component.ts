@@ -7,6 +7,7 @@ import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../project.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-detail',
@@ -29,9 +30,9 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            id: [],
-            name: [],
-            code: []
+            projectId: [],
+            projectName: [],
+            projectCode: []
         });
 
         this.route.paramMap.subscribe(res => {
@@ -56,14 +57,17 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
-        this.http.post(`/api/config/project`, this.form.value).subscribe(res => {
+        this.http.post(`${environment.uri}/project`, this.form.value).subscribe(res => {
+            if (this.form.value.projectId && this.form.value.projectId == this.service.getCurrent().projectId) {
+                this.service.setCurrent(this.form.value)
+            }
             this.message.create('success', '创建成功')
             this.router.navigate(['/project'])
         })
     }
 
     load(id) {
-        this.http.get(`/api/config/project/${id}`).subscribe(res => {
+        this.http.get(`${environment.uri}/project/${id}`).subscribe(res => {
             this.form.patchValue(res)
         })
     }

@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -38,10 +39,10 @@ export class ProjectService {
         if (this.projectList) {
             subject.next(this.projectList)
         } else {
-            this.http.get('/api/config/project?size=5').subscribe(res => {
-                subject.next(res[`content`])
-                if (res[`content`].length > 0 && !this.getCurrent()) {
-                    this.setCurrent(res[`content`][0])
+            this.http.get(`${environment.uri}/project?size=5`).subscribe(res => {
+                subject.next(res[`list`])
+                if (res[`list`].length > 0 && !this.getCurrent()) {
+                    this.setCurrent(res[`list`][0])
                 }
             })
         }

@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {EnvService} from "../env.service";
 import {ProjectService} from "../../project/project.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-detail',
@@ -29,13 +30,14 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            id: [],
-            name: [],
-            code: []
+            envId: [],
+            envName: [],
+            envCode: [],
+            projectId: [],
         });
 
         const current = this.projectService.getCurrent()
-        this.projectId = current.id
+        this.projectId = current.projectId
 
         this.route.paramMap.subscribe(res => {
             const id = res.get('id')
@@ -56,14 +58,15 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.form.controls[i].markAsDirty();
             this.form.controls[i].updateValueAndValidity();
         }
-        this.http.post(`/api/config/env?projectId=${this.projectId}`, this.form.value).subscribe(() => {
+        this.form.patchValue({projectId: this.projectId})
+        this.http.post(`${environment.uri}/env`, this.form.value).subscribe(() => {
             this.message.create('success', '创建成功')
             this.router.navigate(['/env'])
         })
     }
 
     load(id) {
-        this.http.get(`/api/config/env/${id}`).subscribe(res => {
+        this.http.get(`${environment.uri}/env/${id}`).subscribe(res => {
             this.form.patchValue(res)
         })
     }

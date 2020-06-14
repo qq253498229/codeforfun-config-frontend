@@ -43,10 +43,10 @@ export class AppComponent implements OnInit {
     load() {
         const currentProject = this.projectService.getCurrent()
         if (currentProject) {
-            this.current = currentProject[`name`]
+            this.current = currentProject[`projectName`]
         }
         this.projectService.current$.subscribe(res => {
-            this.current = res[`name`]
+            this.current = res[`projectName`]
         })
     }
 }

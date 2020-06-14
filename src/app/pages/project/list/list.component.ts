@@ -3,6 +3,7 @@ import {ProjectService} from "../project.service";
 import {HttpClient} from "@angular/common/http";
 import * as _ from 'lodash'
 import {NzMessageService} from "ng-zorro-antd";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-list',
@@ -16,11 +17,11 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     result = {
-        content: [],
-        totalElements: 0
+        list: [],
+        total: 0
     }
 
-    current: { id: number, name: string }
+    current: { projectId: number, projectName: string }
 
     constructor(
         private service: ProjectService,
@@ -40,20 +41,20 @@ export class ListComponent implements OnInit, OnDestroy {
 
     private load() {
         // @ts-ignore
-        this.http.get('/api/config/project', {params: this.param}).subscribe(res => {
-            this.result.content = res[`content`]
-            this.result.totalElements = res[`totalElements`]
+        this.http.get(`${environment.uri}/project`, {params: this.param}).subscribe(res => {
+            this.result.list = res[`list`]
+            this.result.total = res[`total`]
         })
         this.current = this.service.getCurrent()
     }
 
-    setCurrent(id) {
-        this.current = _.find(this.result.content, o => o.id == id)
-        this.service.setCurrent({id: this.current[`id`], name: this.current[`name`], code: this.current[`code`]})
+    setCurrent(projectId) {
+        this.current = _.find(this.result.list, o => o.projectId == projectId)
+        this.service.setCurrent(this.current)
     }
 
     delete(id: number) {
-        this.http.delete(`/api/config/project/${id}`).subscribe(() => {
+        this.http.delete(`${environment.uri}/project/${id}`).subscribe(() => {
             this.message.create('success', '删除成功')
             this.load()
         })

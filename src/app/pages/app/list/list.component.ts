@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../../project/project.service";
 import {AppService} from "../app.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-list',
@@ -16,8 +17,8 @@ export class ListComponent implements OnInit, OnDestroy {
         projectId: null
     }
     result = {
-        content: [],
-        totalElements: 0
+        list: [],
+        total: 0
     }
 
     constructor(
@@ -29,7 +30,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const current = this.projectService.getCurrent()
-        this.param.projectId = current.id
+        this.param.projectId = current.projectId
 
         this.load()
         this.service.init()
@@ -41,9 +42,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
     load() {
         // @ts-ignore
-        this.http.get(`/api/config/app`, {params: this.param}).subscribe(res => {
-            this.result.content = res[`content`]
-            this.result.totalElements = res[`totalElements`]
+        this.http.get(`${environment.uri}/app`, {params: this.param}).subscribe(res => {
+            this.result.list = res[`list`]
+            this.result.total = res[`total`]
         })
     }
 

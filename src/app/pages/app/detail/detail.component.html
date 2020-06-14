@@ -10,16 +10,16 @@
         <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
 
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">应用名</nz-form-label>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appName">应用名</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <input nz-input id="name" formControlName="name" placeholder="请输入应用名" autofocus/>
+                    <input nz-input id="appName" formControlName="appName" placeholder="请输入应用名" autofocus/>
                 </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="code">应用编号</nz-form-label>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appCode">应用编号</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用编号!">
-                    <input nz-input id="code" formControlName="code" placeholder="请输入应用编号"/>
+                    <input nz-input id="appCode" formControlName="appCode" placeholder="请输入应用编号"/>
                 </nz-form-control>
             </nz-form-item>
 
@@ -41,16 +41,16 @@
 <div nz-row *ngIf="result.envList.length > 0">
     <div nz-col nzSpan="12" nzOffset="6">
         <nz-tabset>
-            <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.name">
+            <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.envName">
                 <ng-container *ngIf="item.configList.length > 0">
                     <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
                 </ng-container>
                 <ng-container *ngIf="item.configList.length == 0">
-                    当前还没有配置，点击去 <a [routerLink]="'/conf/new/'+item.id">创建</a>
+                    当前还没有配置，点击去 <a [routerLink]="'/conf/new/'+item.envId">创建</a>
                 </ng-container>
 
                 <h1 class="mt20">
-                    bootstrap-{{ item.code }}.yml 配置示例
+                    bootstrap-{{ item.envCode }}.yml 配置示例
                     <button nz-button nzType="primary" (click)="copyInputMessage(configText)">复制</button>
                 </h1>
                 <!--@formatter:off-->
@@ -58,11 +58,11 @@
 spring:
   cloud:
     config:
-      uri: http://localhost:8888/api/config
+      uri: http://localhost:8888/api/config-server
   application:
-    name: {{ param.projectCode }}_{{ form.get('code').value }}
+    name: {{ param.project.projectCode }}_{{ form.get('appCode').value }}
   profiles:
-    active: {{ item.code }}
+    active: {{ item.envCode }}
 </textarea>
 <!--@formatter:on-->
 

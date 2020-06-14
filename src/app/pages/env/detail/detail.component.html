@@ -9,16 +9,16 @@
         <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
 
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">环境名</nz-form-label>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="envName">环境名</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <input nz-input id="name" formControlName="name" placeholder="请输入环境名" autofocus/>
+                    <input nz-input id="envName" formControlName="envName" placeholder="请输入环境名" autofocus/>
                 </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="code">环境编号</nz-form-label>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="envCode">环境编号</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入环境编号!">
-                    <input nz-input id="code" formControlName="code" placeholder="请输入环境编号"/>
+                    <input nz-input id="envCode" formControlName="envCode" placeholder="请输入环境编号"/>
                 </nz-form-control>
             </nz-form-item>
 

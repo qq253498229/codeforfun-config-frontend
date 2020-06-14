@@ -2,23 +2,23 @@
     <div nz-col nzSpan="22">
         <h1>应用列表</h1>
     </div>
-    <div nz-col nzSpan="2" *ngIf="result.content.length > 0">
+    <div nz-col nzSpan="2" *ngIf="result.list.length > 0">
         <button nz-button nzType="primary" routerLink="/app/new">新建应用</button>
     </div>
 </div>
-<div nz-row *ngIf="result.content.length == 0">
+<div nz-row *ngIf="result.list.length == 0">
     <h1>
         当前还没有应用，点击 <a routerLink="/app/new">新建</a>
     </h1>
 </div>
-<div nz-row [nzGutter]="8" *ngIf="result.content.length > 0">
-    <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.content">
-        <nz-card [nzBordered]="false" [nzTitle]="item.name" nzHoverable="true" [routerLink]="'/app/edit/'+item.id">
+<div nz-row [nzGutter]="8" *ngIf="result.list.length > 0">
+    <div nz-col nzFlex [nzSpan]="8" class="mt10" *ngFor="let item of result.list">
+        <nz-card [nzBordered]="false" [nzTitle]="item.appName" nzHoverable="true" [routerLink]="'/app/edit/'+item.appId">
             <div *ngIf="item.configList.length == 0">该项目目前没有配置</div>
             <div nz-row *ngIf="item.configList.length > 0">
                 <ng-container *ngFor="let c of item.configList">
-                    <div nz-col nzSpan="12">配置: {{ c.name }}</div>
-                    <div nz-col nzSpan="12">环境: {{ c.env.name }}</div>
+                    <div nz-col nzSpan="12">配置: {{ c.configName }}</div>
+                    <div nz-col nzSpan="12">环境: {{ c.env.envName }}</div>
                 </ng-container>
             </div>
         </nz-card>
@@ -26,7 +26,7 @@
 </div>
 <div nz-row class="mt20">
     <div nz-col nzSpan="4" nzOffset="20">
-        <nz-pagination [nzPageIndex]="param.page+1" [nzTotal]="result.totalElements" nzSimple nzHideOnSinglePage="true"
+        <nz-pagination [nzPageIndex]="param.page+1" [nzTotal]="result.total" nzSimple nzHideOnSinglePage="true"
                        (nzPageIndexChange)="changePage($event)"></nz-pagination>
     </div>
 </div>

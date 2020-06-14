@@ -4,6 +4,7 @@ import {ProjectService} from "../../project/project.service";
 import {NzMessageService} from "ng-zorro-antd";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
 import {Router} from "@angular/router";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-list',
@@ -21,8 +22,8 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     result = {
-        content: [],
-        totalElements: 0
+        list: [],
+        total: 0
     }
 
     constructor(
@@ -36,7 +37,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const current = this.projectService.getCurrent()
-        this.projectId = current.id
+        this.projectId = current.projectId
 
         this.loadEnvList()
 
@@ -62,19 +63,19 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     loadEnvList() {
-        this.http.get(`/api/config/env?projectId=${this.projectId}`).subscribe(res => {
-            this.envList = res[`content`]
+        this.http.get(`${environment.uri}/env?projectId=${this.projectId}`).subscribe(res => {
+            this.envList = res[`list`]
             if (this.envList && this.envList.length > 0) {
-                this.changeEnv(this.envList[0].id)
+                this.changeEnv(this.envList[0].envId)
             }
         })
     }
 
     loadConfList() {
         // @ts-ignore
-        this.http.get(`/api/config/conf`, {params: this.param}).subscribe(res => {
-            this.result.content = res[`content`]
-            this.result.totalElements = res[`totalElements`]
+        this.http.get(`${environment.uri}/conf`, {params: this.param}).subscribe(res => {
+            this.result.list = res[`list`]
+            this.result.total = res[`total`]
         })
     }
 
@@ -85,7 +86,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     delete(confId) {
-        this.http.delete(`/api/config/conf/${confId}`).subscribe(res => {
+        this.http.delete(`${environment.uri}/conf/${confId}`).subscribe(res => {
             this.message.create('success', '删除成功')
             this.loadConfList()
         })

@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd";
 import {ProjectService} from "../../project/project.service";
 import {Hotkey, HotkeysService} from "angular2-hotkeys";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-detail',
@@ -16,6 +17,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     form: FormGroup;
     projectId
     envId
+    configId
     keys = []
     format = true
     propertyText = ''
@@ -34,19 +36,20 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            id: [],
-            name: [],
+            configId: [],
+            configName: [],
+            envId: [],
             propertyList: this.fb.array([])
         });
 
         const current = this.projectService.getCurrent()
-        this.projectId = current.id
+        this.projectId = current.projectId
 
         this.route.paramMap.subscribe(res => {
             this.envId = res.get('envId')
-            const id = res.get('id')
-            if (id) {
-                this.load(id)
+            this.configId = res.get('id')
+            if (this.configId) {
+                this.load()
             }
         })
 
@@ -64,8 +67,8 @@ export class DetailComponent implements OnInit, OnDestroy {
         return this.form.get('propertyList') as FormArray
     }
 
-    load(id) {
-        this.http.get(`/api/config/conf/${id}`).subscribe(res => {
+    load() {
+        this.http.get(`${environment.uri}/conf/${this.configId}`).subscribe(res => {
             this.form.patchValue(res)
             this.formatChange(res)
         })
@@ -83,7 +86,8 @@ export class DetailComponent implements OnInit, OnDestroy {
             this.form.controls[i].updateValueAndValidity();
         }
         this.convertTextToForm()
-        this.http.post(`/api/config/conf?envId=${this.envId}`, this.form.value).subscribe(() => {
+        this.form.patchValue({envId: this.envId})
+        this.http.post(`${environment.uri}/conf`, this.form.value).subscribe(() => {
             this.message.create('success', '创建成功')
             this.router.navigate(['/conf'])
         })
@@ -91,9 +95,9 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     addProperty(obj?: any) {
         this.propertyList.push(this.fb.group({
-            id: [obj ? obj.id : null],
-            key: [obj ? obj.key : null],
-            value: [obj ? obj.value : null],
+            propertyId: [obj ? obj.propertyId : null],
+            propertyKey: [obj ? obj.propertyKey : null],
+            propertyValue: [obj ? obj.propertyValue : null],
         }))
     }
 
@@ -104,7 +108,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         if (this.format) {
             this.propertyText = ''
             this.form.value.propertyList.forEach(p => {
-                this.propertyText += p.key + "=" + p.value + "\n"
+                this.propertyText += p.propertyKey + "=" + p.propertyValue + "\n"
             })
         }
     }
@@ -114,14 +118,13 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
 
     convertTextToForm() {
-        const result = []
+        this.propertyList.clear()
         const list = this.propertyText.split("\n")
         list.forEach(o => {
             if (o.indexOf("=") > 0) {
                 const obj = o.split("=")
-                result.push({key: obj[0], value: obj[1]})
+                this.addProperty({propertyKey: obj[0], propertyValue: obj[1]})
             }
         })
-        this.form.value.propertyList = result
     }
 }

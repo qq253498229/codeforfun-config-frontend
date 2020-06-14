@@ -6,6 +6,7 @@ import {NzMessageService} from "ng-zorro-antd";
 import {ProjectService} from "../../project/project.service";
 import * as _ from 'lodash'
 import {AppService} from "../app.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-detail',
@@ -20,8 +21,11 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     param = {
         envId: null,
-        projectId: null,
-        projectCode: null,
+        project: {
+            projectId: null,
+            projectName: null,
+            projectCode: null
+        }
     }
 
     result = {
@@ -44,15 +48,14 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.form = this.fb.group({
-            id: [],
-            name: [],
-            code: [],
+            appId: [],
+            appName: [],
+            appCode: [],
+            projectId: [],
             configList: [],
         });
 
-        const current = this.projectService.getCurrent()
-        this.param.projectId = current.id
-        this.param.projectCode = current.code
+        this.param.project = this.projectService.getCurrent()
         this.loadApp()
         this.service.init()
     }
@@ -75,7 +78,8 @@ export class DetailComponent implements OnInit, OnDestroy {
             })
         })
         this.form.patchValue({configList: configList})
-        this.http.post(`/api/config/app?projectId=${this.param.projectId}`, this.form.value).subscribe(() => {
+        this.form.patchValue({projectId: this.param.project.projectId})
+        this.http.post(`${environment.uri}/app`, this.form.value).subscribe(() => {
             this.message.create('success', '创建成功')
             this.router.navigate(['/app'])
         })
@@ -85,7 +89,7 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.route.paramMap.subscribe(p => {
             const id = p.get('id')
             if (id) {
-                this.http.get(`/api/config/app/${id}`).subscribe(res => {
+                this.http.get(`${environment.uri}/app/${id}`).subscribe(res => {
                     this.app = res
                     this.form.patchValue(res)
                     this.loadEnv()
@@ -97,14 +101,14 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
 
     loadEnv() {
-        this.http.get<any[]>(`/api/config/env/findAll?projectId=${this.param.projectId}`).subscribe(res => {
+        this.http.get<any[]>(`${environment.uri}/env/findAll?projectId=${this.param.project.projectId}`).subscribe(res => {
             this.result.envList = res
             const configList = this.form.get('configList').value
             _.forEach(this.result.envList, e => {
                 _.forEach(e.configList, c => {
-                    c.value = c.id
-                    c.label = c.name
-                    c.checked = _.findIndex(configList, {id: c.id}) > -1
+                    c.value = c.configId
+                    c.label = c.configName
+                    c.checked = _.findIndex(configList, {configId: c.configId}) > -1
                 })
             })
         })

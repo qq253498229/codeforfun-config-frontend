@@ -2,7 +2,7 @@
     <div nz-col nzSpan="24">
         <nz-radio-group [(ngModel)]="param.envId" nzButtonStyle="solid" (ngModelChange)="changeEnv($event)">
             <ng-container *ngFor="let item of envList">
-                <label nz-radio-button [nzValue]="item.id">{{ item.name }}</label>
+                <label nz-radio-button [nzValue]="item.envId">{{ item.envName }}</label>
             </ng-container>
         </nz-radio-group>
     </div>
@@ -23,8 +23,8 @@
 </div>
 <div nz-row *ngIf="envList.length > 0">
     <div nz-col nzSpan="24">
-        <nz-table #basicTable [nzData]="result.content" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
-                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.totalElements"
+        <nz-table #basicTable [nzData]="result.list" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
+                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.total"
                   (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
             <thead>
             <tr>
@@ -34,12 +34,12 @@
             </thead>
             <tbody>
             <tr *ngFor="let data of basicTable.data">
-                <td>{{ data.name }}</td>
+                <td>{{ data.configName }}</td>
                 <td>
                     <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个配置吗，删除后数据将无法恢复?"
-                       (nzOnConfirm)="delete(data.id)">删除</a>
+                       (nzOnConfirm)="delete(data.configId)">删除</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a [routerLink]="'/conf/edit/'+param.envId+'/'+data.id">配置</a>
+                    <a [routerLink]="'/conf/edit/'+param.envId+'/'+data.configId">配置</a>
                 </td>
             </tr>
             </tbody>

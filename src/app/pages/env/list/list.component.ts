@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ProjectService} from "../../project/project.service";
 import {EnvService} from "../env.service";
 import {NzMessageService} from "ng-zorro-antd";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-list',
@@ -18,8 +19,8 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     result = {
-        content: [],
-        totalElements: 0
+        list: [],
+        total: 0
     }
 
 
@@ -33,7 +34,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const current = this.projectService.getCurrent()
-        this.param.projectId = current.id
+        this.param.projectId = current.projectId
 
         this.load()
         this.service.init()
@@ -45,9 +46,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
     load() {
         // @ts-ignore
-        this.http.get('/api/config/env', {params: this.param}).subscribe(res => {
-            this.result.content = res[`content`]
-            this.result.totalElements = res[`totalElements`]
+        this.http.get(`${environment.uri}/env`, {params: this.param}).subscribe(res => {
+            this.result.list = res[`list`]
+            this.result.total = res[`total`]
         })
     }
 
@@ -57,7 +58,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     delete(id) {
-        this.http.delete(`/api/config/env/${id}`).subscribe(res => {
+        this.http.delete(`${environment.uri}/env/${id}`).subscribe(res => {
             this.message.create('success', '删除成功')
             this.load()
         })

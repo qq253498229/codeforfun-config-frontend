@@ -7,9 +7,9 @@
     <div nz-col nzSpan="24">
         <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name">配置名</nz-form-label>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="configName">配置名</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <input nz-input id="name" formControlName="name" placeholder="请输入配置名" autofocus/>
+                    <input nz-input id="configName" formControlName="configName" placeholder="请输入配置名" autofocus/>
                 </nz-form-control>
             </nz-form-item>
 
@@ -36,12 +36,12 @@
                     <ng-container [formGroup]="item">
                         <nz-form-label nzSpan="1" nzOffset="5">Key</nz-form-label>
                         <nz-form-control nzSpan="6">
-                            <input nz-input placeholder="Key" formControlName="key"/>
+                            <input nz-input placeholder="Key" formControlName="propertyKey"/>
                         </nz-form-control>
 
                         <nz-form-label nzSpan="1">Value</nz-form-label>
                         <nz-form-control nzSpan="6">
-                            <input nz-input placeholder="Value" formControlName="value"/>
+                            <input nz-input placeholder="Value" formControlName="propertyValue"/>
                         </nz-form-control>
 
                         <div nz-col nzSpan="1" class="property-icon" (click)="remove(i)">
