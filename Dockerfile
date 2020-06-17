@@ -1,5 +1,4 @@
 FROM node:13.10.1-alpine
-RUN npm config set registry https://registry.npm.taobao.org
 WORKDIR /app
 COPY package.json package.json
 RUN npm install
@@ -12,11 +11,16 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
 
+ENV BACKEND_PATH=http://config:8888
+
 RUN echo "server { \
     listen       80; \
     server_name  localhost; \
     root /usr/share/nginx/html; \
     index index.html index.htm; \
+    location /api { \
+      proxy_pass $BACKEND_PATH; \
+    } \
     location / { \
       try_files \$uri \$uri/ /index.html; \
     } \
