@@ -1,5 +1,3 @@
 # DemoConfigFrontend
 
-[前台](https://gitee.com/consolelog/demo-config-frontend)
-
-[后台](https://gitee.com/consolelog/codeforfun-config-server)
+文档地址: [Spring Cloud 配置中心](https://consolelog.gitee.io/docker-config-server-all-in-one/)
