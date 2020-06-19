@@ -51,6 +51,19 @@
                     <ng-container *ngIf="item.configList.length == 0">
                         当前还没有配置，点击去 <a [routerLink]="'/conf/new/'+item.envId">创建</a>
                     </ng-container>
+                    <h1 class="mt20">
+                        配置示例
+                        <button nz-button nzType="primary" (click)="copyInputMessage(configText)">复制</button>
+                    </h1>
+                    <!--@formatter:off-->
+<textarea nz-input [nzAutosize]="{ minRows: 10, maxRows: 20 }" #configText>
+spring:
+  application:
+    name: {{ param.project.projectCode }}_{{ form.get('appCode').value }}
+  profiles:
+    active: {{ item.envCode }}
+</textarea>
+<!--@formatter:on-->
                 </nz-tab>
             </nz-tabset>
         </div>
