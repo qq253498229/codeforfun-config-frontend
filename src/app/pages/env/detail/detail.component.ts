@@ -17,6 +17,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     form: FormGroup;
     projectId;
     isSpinning = true
+    envId
 
     constructor(
         private fb: FormBuilder,
@@ -42,8 +43,9 @@ export class DetailComponent implements OnInit, OnDestroy {
 
         this.route.paramMap.subscribe(res => {
             const id = res.get('id')
+            this.envId = id
             if (id) {
-                this.load(id)
+                this.load()
             } else {
                 this.isSpinning = false
             }
@@ -68,8 +70,8 @@ export class DetailComponent implements OnInit, OnDestroy {
         })
     }
 
-    load(id) {
-        this.http.get(`${environment.uri}/env/${id}`).subscribe(res => {
+    load() {
+        this.http.get(`${environment.uri}/env/${this.envId}`).subscribe(res => {
             this.form.patchValue(res)
             this.isSpinning = false
         })

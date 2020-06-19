@@ -1,6 +1,7 @@
 <div nz-row>
-    <div nz-col nzSpan="24">
-        <h1>新建环境</h1>
+    <div nz-col nzSpan="12" nzOffset="6">
+        <h1 *ngIf="!envId">新建环境</h1>
+        <h1 *ngIf="envId">编辑环境</h1>
     </div>
 </div>
 <nz-spin [nzSpinning]="isSpinning">
