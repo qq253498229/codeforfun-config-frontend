@@ -26,16 +26,16 @@ export class ProjectService {
 
     setCurrent(obj: any) {
         if (obj) {
-            localStorage.setItem('CURRENT_PROJECT', JSON.stringify(obj))
+            sessionStorage.setItem('CURRENT_PROJECT', JSON.stringify(obj))
         } else {
-            localStorage.removeItem('CURRENT_PROJECT')
+            sessionStorage.removeItem('CURRENT_PROJECT')
         }
         this.current.next(obj)
     }
 
     getCurrent() {
-        const json = localStorage.getItem('CURRENT_PROJECT')
-        return json ? JSON.parse(localStorage.getItem('CURRENT_PROJECT')) : null
+        const json = sessionStorage.getItem('CURRENT_PROJECT')
+        return json ? JSON.parse(sessionStorage.getItem('CURRENT_PROJECT')) : null
     }
 
     get list(): Observable<any[]> {
