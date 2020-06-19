@@ -15,6 +15,7 @@ import {environment} from "../../../../environments/environment";
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
+    isSpinning = true
 
     form: FormGroup;
     app;
@@ -111,6 +112,7 @@ export class DetailComponent implements OnInit, OnDestroy {
                     c.checked = _.findIndex(configList, {configId: c.configId}) > -1
                 })
             })
+            this.isSpinning = false
         })
     }
 

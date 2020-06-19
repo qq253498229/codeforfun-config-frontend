@@ -10,6 +10,7 @@ import {environment} from "../../../../environments/environment";
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
+    isSpinning = true
 
     param = {
         page: 0,
@@ -45,11 +46,13 @@ export class ListComponent implements OnInit, OnDestroy {
         this.http.get(`${environment.uri}/app`, {params: this.param}).subscribe(res => {
             this.result.list = res[`list`]
             this.result.total = res[`total`]
+            this.isSpinning = false
         })
     }
 
     changePage(pageSize) {
         this.param.page = pageSize - 1
+        this.isSpinning = true
         this.load()
     }
 }

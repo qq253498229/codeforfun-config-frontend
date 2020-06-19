@@ -6,35 +6,39 @@
         <button nz-button nzType="primary" routerLink="/env/new">新建环境</button>
     </div>
 </div>
-<div nz-row *ngIf="result.list.length == 0">
-    <h1>
-        当前还没有环境，点击 <a routerLink="/env/new">创建</a>
-    </h1>
-</div>
-<div nz-row *ngIf="result.list.length > 0">
-    <div nz-col nzSpan="24">
-        <nz-table #basicTable [nzData]="result.list" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
-                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.total"
-                  (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
-            <thead>
-            <tr>
-                <th>环境名</th>
-                <th>环境编号</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let data of basicTable.data">
-                <td>{{ data.envName }}</td>
-                <td>{{ data.envCode }}</td>
-                <td>
-                    <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个环境吗，删除后数据将无法恢复?"
-                       (nzOnConfirm)="delete(data.envId)">删除</a>
-                    <nz-divider nzType="vertical"></nz-divider>
-                    <a [routerLink]="'/env/edit/'+data.envId">配置</a>
-                </td>
-            </tr>
-            </tbody>
-        </nz-table>
+<nz-spin [nzSpinning]="isSpinning">
+
+    <div nz-row *ngIf="result.list.length == 0">
+        <h1>
+            当前还没有环境，点击 <a routerLink="/env/new">创建</a>
+        </h1>
     </div>
-</div>
+    <div nz-row *ngIf="result.list.length > 0">
+        <div nz-col nzSpan="24">
+            <nz-table #basicTable [nzData]="result.list" nzShowPagination="true" nzFrontPagination="false"
+                      nzSize="small"
+                      [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.total"
+                      (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
+                <thead>
+                <tr>
+                    <th>环境名</th>
+                    <th>环境编号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{ data.envName }}</td>
+                    <td>{{ data.envCode }}</td>
+                    <td>
+                        <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个环境吗，删除后数据将无法恢复?"
+                           (nzOnConfirm)="delete(data.envId)">删除</a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a [routerLink]="'/env/edit/'+data.envId">配置</a>
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-spin>

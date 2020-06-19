@@ -23,6 +23,7 @@ export class ListComponent implements OnInit, OnDestroy {
         total: 0
     }
 
+    isSpinning = true
 
     constructor(
         private http: HttpClient,
@@ -49,6 +50,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.http.get(`${environment.uri}/env`, {params: this.param}).subscribe(res => {
             this.result.list = res[`list`]
             this.result.total = res[`total`]
+            this.isSpinning = false
         })
     }
 

@@ -23,6 +23,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
     current: { projectId: number, projectName: string }
 
+    isSpinning = true
+
     constructor(
         private service: ProjectService,
         private http: HttpClient,
@@ -44,6 +46,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.http.get(`${environment.uri}/project`, {params: this.param}).subscribe(res => {
             this.result.list = res[`list`]
             this.result.total = res[`total`]
+            this.isSpinning = false
         })
         this.current = this.service.getCurrent()
     }

@@ -6,39 +6,43 @@
         <button nz-button nzType="primary" routerLink="/project/new">新建项目</button>
     </div>
 </div>
-<div nz-row *ngIf="result.list.length == 0">
-    <h1>
-        当前还没有项目，点击 <a routerLink="/project/new">新建</a>
-    </h1>
-</div>
-<div nz-row *ngIf="result.list.length > 0">
-    <div nz-col nzSpan="24">
-        <nz-table #basicTable [nzData]="result.list" nzShowPagination="true" nzFrontPagination="false" nzSize="small"
-                  [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.total"
-                  (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
-            <thead>
-            <tr>
-                <th>项目名</th>
-                <th>项目编号</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let data of basicTable.data">
-                <td>{{ data.projectName }}</td>
-                <td>{{ data.projectCode }}</td>
-                <td>
-                    <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个项目吗，删除后数据将无法恢复?"
-                       (nzOnConfirm)="delete(data.projectId)">删除</a>
-                    <ng-container *ngIf="!current || current.projectName != data.projectName">
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <a (click)="setCurrent(data.projectId)">设为当前项目</a>
-                    </ng-container>
-                    <nz-divider nzType="vertical"></nz-divider>
-                    <a [routerLink]="'/project/edit/'+data.projectId">配置</a>
-                </td>
-            </tr>
-            </tbody>
-        </nz-table>
+<nz-spin [nzSpinning]="isSpinning">
+
+    <div nz-row *ngIf="result.list.length == 0">
+        <h1>
+            当前还没有项目，点击 <a routerLink="/project/new">新建</a>
+        </h1>
     </div>
-</div>
+    <div nz-row *ngIf="result.list.length > 0">
+        <div nz-col nzSpan="24">
+            <nz-table #basicTable [nzData]="result.list" nzShowPagination="true" nzFrontPagination="false"
+                      nzSize="small"
+                      [nzPageIndex]="param.page+1" [nzPageSize]="param.size" [nzTotal]="result.total"
+                      (nzPageIndexChange)="changePage($event)" nzHideOnSinglePage="true">
+                <thead>
+                <tr>
+                    <th>项目名</th>
+                    <th>项目编号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{ data.projectName }}</td>
+                    <td>{{ data.projectCode }}</td>
+                    <td>
+                        <a class="color-red" nz-popconfirm nzPopconfirmTitle="您确认要删除这个项目吗，删除后数据将无法恢复?"
+                           (nzOnConfirm)="delete(data.projectId)">删除</a>
+                        <ng-container *ngIf="!current || current.projectName != data.projectName">
+                            <nz-divider nzType="vertical"></nz-divider>
+                            <a (click)="setCurrent(data.projectId)">设为当前项目</a>
+                        </ng-container>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a [routerLink]="'/project/edit/'+data.projectId">配置</a>
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</nz-spin>

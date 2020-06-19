@@ -15,6 +15,7 @@ import {environment} from "../../../../environments/environment";
     styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit, OnDestroy {
+    isSpinning = true
 
     form: FormGroup;
 
@@ -39,6 +40,8 @@ export class DetailComponent implements OnInit, OnDestroy {
             const id = res.get('id')
             if (id) {
                 this.load(id)
+            } else {
+                this.isSpinning = false
             }
         })
 
@@ -69,6 +72,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     load(id) {
         this.http.get(`${environment.uri}/project/${id}`).subscribe(res => {
             this.form.patchValue(res)
+            this.isSpinning = false
         })
     }
 }

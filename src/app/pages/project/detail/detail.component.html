@@ -3,32 +3,37 @@
         <h1>新建项目</h1>
     </div>
 </div>
-<div nz-row>
-    <div nz-col nzSpan="24">
+<nz-spin [nzSpinning]="isSpinning">
 
-        <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div nz-row>
+        <div nz-col nzSpan="24">
 
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="projectName">项目名</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <input nz-input id="projectName" formControlName="projectName" placeholder="请输入项目名" trim="blur" autofocus/>
-                </nz-form-control>
-            </nz-form-item>
+            <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
 
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="projectCode">项目编号</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <input nz-input id="projectCode" formControlName="projectCode" placeholder="请输入项目编号" trim="blur"/>
-                </nz-form-control>
-            </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="projectName">项目名</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24">
+                        <input nz-input id="projectName" formControlName="projectName" placeholder="请输入项目名" trim="blur"
+                               autofocus/>
+                    </nz-form-control>
+                </nz-form-item>
 
-            <nz-form-item nz-row class="register-area">
-                <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                    <button nz-button nzType="primary" [disabled]="!form.dirty || form.invalid">保存
-                    </button>
-                </nz-form-control>
-            </nz-form-item>
-        </form>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="projectCode">项目编号</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24">
+                        <input nz-input id="projectCode" formControlName="projectCode" placeholder="请输入项目编号"
+                               trim="blur"/>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-row class="register-area">
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                        <button nz-button nzType="primary" [disabled]="!form.dirty || form.invalid">保存
+                        </button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+
     </div>
-
-</div>
+</nz-spin>

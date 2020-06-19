@@ -25,6 +25,7 @@ export class ListComponent implements OnInit, OnDestroy {
         list: [],
         total: 0
     }
+    isSpinning = true
 
     constructor(
         private http: HttpClient,
@@ -58,6 +59,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     changeEnv(envId) {
+        this.isSpinning = true
         this.param.envId = envId
         this.loadConfList()
     }
@@ -76,11 +78,13 @@ export class ListComponent implements OnInit, OnDestroy {
         this.http.get(`${environment.uri}/conf`, {params: this.param}).subscribe(res => {
             this.result.list = res[`list`]
             this.result.total = res[`total`]
+            this.isSpinning = false
         })
     }
 
 
     changePage(pageSize) {
+        this.isSpinning = true
         this.param.page = pageSize - 1
         this.loadConfList()
     }

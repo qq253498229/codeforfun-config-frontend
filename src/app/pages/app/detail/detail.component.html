@@ -4,53 +4,57 @@
         <h1 *ngIf="app">编辑应用</h1>
     </div>
 </div>
-<div nz-row>
-    <div nz-col nzSpan="24">
+<nz-spin [nzSpinning]="isSpinning">
 
-        <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <div nz-row>
+        <div nz-col nzSpan="24">
 
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appName">应用名</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24">
-                    <input nz-input id="appName" formControlName="appName" placeholder="请输入应用名" autofocus/>
-                </nz-form-control>
-            </nz-form-item>
+            <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
 
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appCode">应用编号</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用编号!">
-                    <input nz-input id="appCode" formControlName="appCode" placeholder="请输入应用编号"/>
-                </nz-form-control>
-            </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appName">应用名</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24">
+                        <input nz-input id="appName" formControlName="appName" placeholder="请输入应用名" autofocus/>
+                    </nz-form-control>
+                </nz-form-item>
 
-            <nz-form-item nz-row class="register-area">
-                <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                    <button nz-button nzType="primary">保存</button>
-                </nz-form-control>
-            </nz-form-item>
-        </form>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appCode">应用编号</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用编号!">
+                        <input nz-input id="appCode" formControlName="appCode" placeholder="请输入应用编号"/>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item nz-row class="register-area">
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                        <button nz-button nzType="primary">保存</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
     </div>
-</div>
 
-<div nz-row *ngIf="result.envList.length == 0">
-    <div nz-col nzSpan="12" nzOffset="6">
-        <h1>当前还没有环境，点击 <a routerLink="/env/new">创建</a> </h1>
+
+    <div nz-row *ngIf="result.envList.length == 0">
+        <div nz-col nzSpan="12" nzOffset="6">
+            <h1>当前还没有环境，点击 <a routerLink="/env/new">创建</a></h1>
+        </div>
     </div>
-</div>
 
-<div nz-row *ngIf="result.envList.length > 0">
-    <div nz-col nzSpan="12" nzOffset="6">
-        <nz-tabset>
-            <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.envName">
-                <ng-container *ngIf="item.configList.length > 0">
-                    <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
-                </ng-container>
-                <ng-container *ngIf="item.configList.length == 0">
-                    当前还没有配置，点击去 <a [routerLink]="'/conf/new/'+item.envId">创建</a>
-                </ng-container>
-            </nz-tab>
-        </nz-tabset>
+    <div nz-row *ngIf="result.envList.length > 0">
+        <div nz-col nzSpan="12" nzOffset="6">
+            <nz-tabset>
+                <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.envName">
+                    <ng-container *ngIf="item.configList.length > 0">
+                        <nz-checkbox-group [(ngModel)]="item.configList"></nz-checkbox-group>
+                    </ng-container>
+                    <ng-container *ngIf="item.configList.length == 0">
+                        当前还没有配置，点击去 <a [routerLink]="'/conf/new/'+item.envId">创建</a>
+                    </ng-container>
+                </nz-tab>
+            </nz-tabset>
+        </div>
     </div>
-</div>
 
 
+</nz-spin>
