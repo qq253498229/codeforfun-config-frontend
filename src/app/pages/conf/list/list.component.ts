@@ -69,6 +69,8 @@ export class ListComponent implements OnInit, OnDestroy {
             this.envList = res[`list`]
             if (this.envList && this.envList.length > 0) {
                 this.changeEnv(this.envList[0].envId)
+            } else {
+                this.isSpinning = false
             }
         })
     }
