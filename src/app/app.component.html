@@ -12,22 +12,17 @@
             </a>
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-            <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/app">主页</a>
-                    </li>
-                </ul>
+            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzTitle="应用管理" nzMatchRouter routerLink="/app">
+                <i nz-icon nzType="dashboard"></i>
+                <span>应用管理</span>
             </li>
-            <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/env">环境管理</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/conf">配置管理</a>
-                    </li>
-                </ul>
+            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzTitle="环境管理" nzMatchRouter routerLink="/env">
+                <i nz-icon nzType="unordered-list"></i>
+                <span>环境管理</span>
+            </li>
+            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzTitle="配置管理" nzMatchRouter routerLink="/conf">
+                <i nz-icon nzType="tool"></i>
+                <span>配置管理</span>
             </li>
         </ul>
     </nz-sider>
