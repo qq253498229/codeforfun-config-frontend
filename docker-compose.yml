@@ -1,11 +1,11 @@
 version: "3"
 services:
   config-front:
-    image: registry.cn-beijing.aliyuncs.com/codeforfun/config-server-frontend:1.0.2
+    image: registry.cn-beijing.aliyuncs.com/codeforfun/config-server-frontend:1.0.3
     build: .
-    container_name: config-front
-#    environment:
-#      BACKEND_PATH: http://host.docker.internal:8888
+    container_name: config-server-frontend
+    environment:
+      BACKEND_PATH: http://host.docker.internal:8888
     ports:
       - "80:80"
 networks:
