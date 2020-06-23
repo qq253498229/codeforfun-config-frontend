@@ -34,6 +34,10 @@ export class AppComponent implements OnInit {
             this.router.navigate(['/conf'])
             return false; // Prevent bubbling
         }, undefined, '跳转到配置列表'));
+        this.hotkey.add(new Hotkey(['alt+4', 'option+4'], (): boolean => {
+            this.router.navigate(['/notice'])
+            return false; // Prevent bubbling
+        }, undefined, '跳转到通知管理'));
     }
 
     ngOnInit(): void {

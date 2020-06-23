@@ -20,6 +20,11 @@ const routes: Routes = [
         canActivateChild: [ProjectGuard],
         loadChildren: () => import('./pages/conf/conf.module').then(m => m.ConfModule)
     },
+    {
+        path: 'notice',
+        canActivateChild: [ProjectGuard],
+        loadChildren: () => import('./pages/notice/notice.module').then(m => m.NoticeModule)
+    },
 ];
 
 @NgModule({
