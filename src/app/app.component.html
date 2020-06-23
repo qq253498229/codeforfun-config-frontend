@@ -1,17 +1,12 @@
-<nz-layout class="app-layout">
-    <nz-sider class="menu-sidebar"
-              nzCollapsible
-              nzWidth="256px"
-              nzBreakpoint="md"
-              [(nzCollapsed)]="isCollapsed"
-              [nzTrigger]="null">
+<nz-layout>
+    <nz-sider nzCollapsible nzWidth="200px" [nzCollapsed]="isCollapsed" (nzCollapsedChange)="collapsedTrigger($event)">
         <div class="sidebar-logo">
             <a routerLink="/app">
                 <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
                 <h1>配置管理中心</h1>
             </a>
         </div>
-        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <ul nz-menu nzTheme="dark" nzMode="inline">
             <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzTitle="应用管理" nzMatchRouter routerLink="/app">
                 <i nz-icon nzType="appstore"></i>
                 <span>应用管理</span>
@@ -33,10 +28,6 @@
     <nz-layout>
         <nz-header>
             <div class="app-header">
-                <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-                    <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
-                </span>
-
                 <a nz-dropdown routerLink="/project" *ngIf="!current">
                     项目管理
                 </a>

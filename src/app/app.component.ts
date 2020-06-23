@@ -37,7 +37,13 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const isCollapsed = localStorage.getItem('COLLAPSED')
+        this.isCollapsed = isCollapsed && isCollapsed === 'true';
         this.load()
+    }
+
+    collapsedTrigger(e) {
+        localStorage.setItem('COLLAPSED', e)
     }
 
     load() {
