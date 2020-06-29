@@ -1,1 +1,53 @@
-<p>notice works!</p>
+<div nz-row>
+    <h1>
+        环境
+        <label nz-checkbox [(ngModel)]="checkAll.env.allChecked" (ngModelChange)="updateAllChecked('env')"
+               [nzIndeterminate]="checkAll.env.indeterminate">
+            全选
+        </label>
+    </h1>
+</div>
+<div nz-row>
+    <div nz-col>
+        <nz-checkbox-group [(ngModel)]="checkAll.env.checkOptions"
+                           (ngModelChange)="updateSingleChecked('env')"></nz-checkbox-group>
+    </div>
+</div>
+
+<nz-divider></nz-divider>
+
+<div nz-row>
+    <h1>
+        配置
+        <label nz-checkbox [(ngModel)]="checkAll.conf.allChecked" (ngModelChange)="updateAllChecked('conf')"
+               [nzIndeterminate]="checkAll.conf.indeterminate">
+            全选
+        </label>
+    </h1>
+</div>
+<div nz-row>
+    <div nz-col>
+        <nz-checkbox-group [(ngModel)]="checkAll.conf.checkOptions"
+                           (ngModelChange)="updateSingleChecked('conf')"></nz-checkbox-group>
+    </div>
+</div>
+
+<nz-divider></nz-divider>
+
+<div nz-row>
+    <h1>
+        应用
+        <label nz-checkbox [(ngModel)]="checkAll.app.allChecked" (ngModelChange)="updateAllChecked('app')"
+               [nzIndeterminate]="checkAll.app.indeterminate">
+            全选
+        </label>
+    </h1>
+</div>
+<div nz-row>
+    <div nz-col>
+        <nz-checkbox-group [(ngModel)]="checkAll.app.checkOptions"
+                           (ngModelChange)="updateSingleChecked('app')"></nz-checkbox-group>
+    </div>
+</div>
+
+
