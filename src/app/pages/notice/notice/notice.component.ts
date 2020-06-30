@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
+import * as _ from 'lodash'
+import {NzMessageService} from "ng-zorro-antd";
 
 @Component({
     selector: 'app-notice',
@@ -12,34 +14,23 @@ export class NoticeComponent implements OnInit {
         'env': {
             allChecked: false,
             indeterminate: false,
-            checkOptions: [
-                {label: 'env1', value: 'env1', checked: false},
-                {label: 'env2', value: 'env2', checked: false},
-                {label: 'env3', value: 'env3', checked: false},
-            ]
+            checkOptions: []
         },
-        'conf': {
+        'config': {
             allChecked: false,
             indeterminate: false,
-            checkOptions: [
-                {label: 'conf1', value: 'conf1', checked: false},
-                {label: 'conf2', value: 'conf2', checked: false},
-                {label: 'conf3', value: 'conf3', checked: false},
-            ]
+            checkOptions: []
         },
         'app': {
             allChecked: false,
             indeterminate: false,
-            checkOptions: [
-                {label: 'app1', value: 'app1', checked: false},
-                {label: 'app2', value: 'app2', checked: false},
-                {label: 'app3', value: 'app3', checked: false},
-            ]
+            checkOptions: []
         }
     }
 
     constructor(
         private http: HttpClient,
+        private message: NzMessageService,
     ) {
     }
 
@@ -48,7 +39,41 @@ export class NoticeComponent implements OnInit {
     }
 
     load() {
-        this.http.get(environment.uri+`/`)
+        this.http.get<any[]>(`${environment.uri}/notice/loadAll`).subscribe(res => {
+            _.map(res, (o, i) => {
+                this.checkAll[i] = {
+                    allChecked: false,
+                    indeterminate: false,
+                    checkOptions: _.map(o, o1 => {
+                        return {
+                            label: o1[i + 'Name'],
+                            value: o1[i + 'Id'],
+                            checked: false
+                        }
+                    })
+                }
+            })
+        })
+    }
+
+    submit() {
+        const result = {}
+        _.forIn(this.checkAll, (v, k) => {
+            result[k] = _.map(_.filter(v.checkOptions, {checked: true}), o => {
+                    return o.value
+                }
+            )
+        })
+
+        this.http.post(`${environment.uri}/notice`, result).subscribe(res => {
+            this.message.create('success', '通知成功，服务端配置已经更新！')
+        }, err => {
+            if (err.status === 302) {
+                this.message.create('info', err.error.message)
+            } else {
+                this.message.create('info', '系统错误，请联系管理员')
+            }
+        })
     }
 
     updateAllChecked(flag: string): void {
