@@ -125,9 +125,9 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.propertyList.clear()
         const list = this.propertyText.split("\n")
         list.forEach(o => {
-            if (o.indexOf("=") > 0) {
-                const obj = o.split("=")
-                this.addProperty({propertyKey: obj[0], propertyValue: obj[1]})
+            const idx = o.indexOf("=")
+            if (idx > 0) {
+                this.addProperty({propertyKey: o.substring(0, idx), propertyValue: o.substring(idx + 1)})
             }
         })
     }
