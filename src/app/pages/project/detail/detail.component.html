@@ -1,5 +1,5 @@
 <div nz-row>
-    <div nz-col nzSpan="12" nzOffset="6">
+    <div nz-col nzSpan="12">
         <h1 *ngIf="!projectId">新建项目</h1>
         <h1 *ngIf="projectId">编辑项目</h1>
     </div>
@@ -12,23 +12,25 @@
             <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
 
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="projectName">项目名</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <input nz-input id="projectName" formControlName="projectName" placeholder="请输入项目名" trim="blur"
-                               autofocus/>
+                    <nz-form-control nzSpan="6">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="projectName" placeholder="请输入项目名" trim="blur"
+                                   nz-tooltip nzTooltipPlacement="right" nzTitle="项目名" autofocus/>
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="projectCode">项目编号</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <input nz-input id="projectCode" formControlName="projectCode" placeholder="请输入项目编号"
-                               trim="blur"/>
+                    <nz-form-control nzSpan="6">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="projectCode" placeholder="请输入项目编号" trim="blur"
+                                   nz-tooltip nzTooltipPlacement="right" nzTitle="项目编号"/>
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item nz-row class="register-area">
-                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <nz-form-control [nzSpan]="14">
                         <button nz-button nzType="primary" [disabled]="!form.dirty || form.invalid">保存
                         </button>
                     </nz-form-control>

@@ -1,5 +1,5 @@
 <div nz-row>
-    <div nz-col nzSpan="12" nzOffset="6">
+    <div nz-col nzSpan="12">
         <h1 *ngIf="!app">新建应用</h1>
         <h1 *ngIf="app">编辑应用</h1>
     </div>
@@ -8,25 +8,27 @@
 
     <div nz-row>
         <div nz-col nzSpan="24">
-
             <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appName">应用名</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <input nz-input id="appName" formControlName="appName" placeholder="请输入应用名" autofocus/>
+                    <nz-form-control nzSpan="6">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="appName" placeholder="请输入应用名" trim="blur"
+                                   nz-tooltip nzTooltipPlacement="right" nzTitle="应用名" autofocus/>
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="appCode">应用编号</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="请输入应用编号!">
-                        <input nz-input id="appCode" formControlName="appCode" placeholder="请输入应用编号"/>
+                    <nz-form-control nzSpan="6">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="appCode" placeholder="请输入应用编号" trim="blur"
+                                   nz-tooltip nzTooltipPlacement="right" nzTitle="应用编号"/>
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item nz-row class="register-area">
-                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <nz-form-control [nzSpan]="14">
                         <button nz-button nzType="primary">保存</button>
                     </nz-form-control>
                 </nz-form-item>
@@ -36,13 +38,13 @@
 
 
     <div nz-row *ngIf="result.envList.length == 0">
-        <div nz-col nzSpan="12" nzOffset="6">
+        <div nz-col nzSpan="12">
             <h1>当前还没有环境，点击 <a routerLink="/env/new">创建</a></h1>
         </div>
     </div>
 
     <div nz-row *ngIf="result.envList.length > 0">
-        <div nz-col nzSpan="12" nzOffset="6">
+        <div nz-col nzSpan="12">
             <nz-tabset>
                 <nz-tab *ngFor="let item of result.envList" [nzTitle]="item.envName">
                     <ng-container *ngIf="item.configList.length > 0">

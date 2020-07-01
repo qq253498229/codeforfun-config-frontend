@@ -1,5 +1,5 @@
 <div nz-row>
-    <div nz-col nzSpan="12" nzOffset="6">
+    <div nz-col nzSpan="12">
         <h1 *ngIf="!configId">新建配置</h1>
         <h1 *ngIf="configId">编辑配置</h1>
     </div>
@@ -9,15 +9,18 @@
     <div nz-row>
         <div nz-col nzSpan="24">
             <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+
                 <nz-form-item>
-                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="configName">配置名</nz-form-label>
-                    <nz-form-control [nzSm]="14" [nzXs]="24">
-                        <input nz-input id="configName" formControlName="configName" placeholder="请输入配置名" autofocus/>
+                    <nz-form-control nzSpan="6">
+                        <nz-input-group>
+                            <input type="text" nz-input formControlName="configName" placeholder="请输入配置名" trim="blur"
+                                   nz-tooltip nzTooltipPlacement="right" nzTitle="配置名" autofocus/>
+                        </nz-input-group>
                     </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item nz-row class="register-area">
-                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <nz-form-control [nzSpan]="14">
                         <button nz-button nzType="primary">保存</button>
                         <nz-divider nzType="vertical"></nz-divider>
                         <button nz-button type="button" nzType="primary" (click)="format = !format;formatChange()">切换模式
@@ -37,7 +40,7 @@
                 <ng-container>
                     <nz-form-item *ngFor="let item of propertyList.controls; let i=index">
                         <ng-container [formGroup]="item">
-                            <nz-form-label nzSpan="1" nzOffset="5">Key</nz-form-label>
+                            <nz-form-label nzSpan="1">Key</nz-form-label>
                             <nz-form-control nzSpan="6">
                                 <input nz-input placeholder="Key" formControlName="propertyKey"/>
                             </nz-form-control>
@@ -57,7 +60,7 @@
         </div>
     </div>
     <div nz-row *ngIf="format">
-        <div nz-col nzSpan="13" nzOffset="6">
+        <div nz-col nzSpan="17">
             <textarea nz-input [nzAutosize]="{ minRows: 10, maxRows: 20 }" [(ngModel)]="propertyText">    </textarea>
         </div>
     </div>
