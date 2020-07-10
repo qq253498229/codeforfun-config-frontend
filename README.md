@@ -12,7 +12,7 @@ BACKEND_PATH | http://config-server:8888 | Nginx后端映射地址
 ```bash
 docker run -d -p 80:80 --name config-server-frontend \
 -e BACKEND_PATH=http://host.docker.internal:8888 \
-registry.cn-beijing.aliyuncs.com/codeforfun/config-server-frontend:1.0.5
+registry.cn-beijing.aliyuncs.com/codeforfun/config-server-frontend:1.0.7
 ```
 
 `stop command`
@@ -30,7 +30,7 @@ docker logs -f config-server-frontend
 version: "3"
 services:
   config-front:
-    image: registry.cn-beijing.aliyuncs.com/codeforfun/config-server-frontend:1.0.5
+    image: registry.cn-beijing.aliyuncs.com/codeforfun/config-server-frontend:1.0.7
     container_name: config-server-frontend
     environment:
       BACKEND_PATH: http://host.docker.internal:8888
