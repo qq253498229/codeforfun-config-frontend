@@ -59,11 +59,9 @@
                     </h1>
                     <!--@formatter:off-->
 <textarea nz-input [nzAutosize]="{ minRows: 10, maxRows: 20 }" #configText>
-spring:
-  application:
-    name: {{ param.project.projectCode }}_{{ form.get('appCode').value }}
-  profiles:
-    active: {{ item.envCode }}
+spring.application.name={{ param.project.projectCode }}_{{ form.get('appCode').value }}
+spring.profiles.active={{ item.envCode }}
+spring.cloud.config.uri=http://localhost:8888/api/config-server
 </textarea>
 <!--@formatter:on-->
                 </nz-tab>
